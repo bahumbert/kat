@@ -1,0 +1,74 @@
+<div class="content relative-div">
+    <div class="column-padding-left"></div>
+    <div class="column-padding-right"></div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-6">
+                    <h3>Main data:</h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6 col-lg-4">
+                    <div class="form-group">
+                        <label for="name">
+                            Name :
+                        </label>
+                        <input *ngIf="right.canEdit" type="text" class="form-control" id="name" [(ngModel)]="server.name" (change)="update()" placeholder="Server name">
+                        <span *ngIf="!right.canEdit">{{ server.name }}</span>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-4">
+                    <div class="form-group">
+                        <label for="server-type">
+                            System name :
+                        </label>
+                        <input *ngIf="right.canEdit" type="text" class="form-control" id="system-name" [(ngModel)]="server.systemName" (change)="update()" placeholder="Automatically fetched but can be modified">
+                        <span *ngIf="!right.canEdit">{{ server.systemName }}</span>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-4">
+                    <div class="form-group">
+                        <label for="server-type">
+                            Type :
+                        </label>
+                        <input *ngIf="right.canEdit" type="text" class="form-control" id="server-type" [(ngModel)]="server.type" (change)="update()" placeholder="Type">
+                        <span *ngIf="!right.canEdit">{{ server.type }}</span>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-4">
+                    <div class="form-group">
+                        <label for="url">
+                            Cave url :
+                        </label>
+                        <input *ngIf="right.canEdit" type="text" class="form-control" id="url" [(ngModel)]="server.jolokiaUrl" (change)="update()" placeholder="e.g.: localhost:8181/jolokia">
+                        <span *ngIf="!right.canEdit">{{ server.jolokiaUrl }}</span>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-4">
+                    <div class="form-group">
+                        <label for="authUser">
+                            Web server user :
+                        </label>
+                        <input *ngIf="right.canEdit" type="text" class="form-control" id="authUser" [(ngModel)]="server.authCredentials.user"
+                               (change)="update()"
+                               placeholder="Leave blank if there is no HTTP auth to reach the server">
+                        <span *ngIf="!right.canEdit">{{ server.authCredentials.user }}</span>
+                    </div>
+                </div>
+                <div *ngIf="right.canEdit" class="col-sm-6 col-lg-4">
+                    <div class="form-group">
+                        <label for="authPwd">
+                            Web server password :
+                        </label>
+                        <input type="password" class="form-control" id="authPwd"
+                               [(ngModel)]="server.authCredentials.password" (change)="update()" placeholder="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr/>
+
+</div>

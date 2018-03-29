@@ -1,0 +1,76 @@
+<div class="col-md-12 mb-10 border-right">
+    <div class="col-md-5">
+        <div class="float-right">
+            <label class="label-control">Rows on page</label>
+            <select class="form-control input-sm" [(ngModel)]="rowsOnPage">
+                <option [ngValue]="5">5</option>
+                <option [ngValue]="10">10</option>
+                <option [ngValue]="15">15</option>
+            </select>
+        </div>
+    </div>
+    <div class="col-md-5 float-left">
+        <div class="float-left">
+            <label class="label-control">Search</label>
+            <input class="form-control col-md-4" [(ngModel)]="filterQuery"/>
+        </div>
+    </div>
+
+    <div class="col-md-2 float-left">
+        <div class="float-left">
+            <label class="label-control"></label>
+            <a>
+                <button *ngIf="this.right.isSuperAdmin" (click)="openModal(addContextModal)" class="btn btn-success createButton">Create context
+                </button>
+            </a>
+        </div>
+    </div>
+</div>
+
+<table class="table table-striped" [mfData]="contexts | dataFilter : filterQuery" #mf="mfDataTable"
+       [mfRowsOnPage]="rowsOnPage">
+    <thead>
+    <th>Nom</th>
+    <th *ngIf="this.right.isSuperAdmin">Action</th>
+    </thead>
+    <tbody>
+    <tr *ngFor="let row of mf.data">
+        <td>{{ row.label }}</td>
+        <td *ngIf="this.right.isSuperAdmin">
+            <i class="fa fa-trash clickable" tooltip="Supprimer" (click)="deleteContext(row)"></i>
+        </td>
+    </tr>
+    </tbody>
+    <tfoot>
+    <tr>
+        <td colspan="10">
+            <mfBootstrapPaginator></mfBootstrapPaginator>
+        </td>
+    </tr>
+    </tfoot>
+</table>
+
+<ng-template #addContextModal>
+    <form #formAddContext="ngForm" (ngSubmit)="submitContext()">
+        <div class="modal-header">
+            <h4 class="modal-title pull-left">Ajouter un context</h4>
+            <button type="button" class="close pull-right" aria-label="Close" (click)="closeModal()">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <input type="text" name="label" #labelContext="ngModel" required  [(ngModel)]="context.label" class="form-control" id="labelContext" placeholder="Nom">
+            <div [hidden]="labelContext.valid"
+                 class="alert alert-danger">
+                <span>Context is required</span>
+            </div>
+        </div>
+        <div class="modal-footer">
+
+            <button (click)="closeModal()" type="button" class="btn btn-error" data-dismiss="modal">Close</button>
+
+            <button [disabled]="!formAddContext.valid" type="submit" class="btn btn-success" data-dismiss="modal">Ok</button>
+
+        </div>
+    </form>
+</ng-template>

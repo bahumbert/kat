@@ -1,0 +1,53 @@
+<h3>Déploiement workflow</h3>
+
+<div class="col-md-12">
+    <div class="col-md-12 mb-10 mt-20">
+        <div class="col-md-6">
+            <div class="float-right">
+                <label class="label-control">Rows on page</label>
+                <select class="form-control input-sm" [(ngModel)]="rowsOnPage">
+                    <option [ngValue]="5">5</option>
+                    <option [ngValue]="10">10</option>
+                    <option [ngValue]="15">15</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-6 float-left">
+            <div class="float-left">
+                <label class="label-control">Search</label>
+                <input class="form-control col-md-4" [(ngModel)]="filterQuery"/>
+            </div>
+        </div>
+    </div>
+
+
+    <table class="table table-striped" [mfData]="workflows | dataFilter : filterQuery" #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage">
+        <thead>
+        <th>Nom</th>
+        <th>Deployed</th>
+        <th *ngIf="right.canEdit">Action</th>
+        </thead>
+        <tbody>
+        <tr *ngFor="let wk of mf.data">
+            <td>{{wk.name}}</td>
+            <td *ngIf="wk.isDeployed"><i class="fa fa-check color-green" aria-hidden="true"></i></td>
+            <td *ngIf="!wk.isDeployed"><i class="fa fa-times color-red" aria-hidden="true"></i></td>
+            <td *ngIf="right.canEdit">
+                <a *ngIf="!wk.isDeployed" tooltip="Deploy" (click)="deployWorkflow(wk)" class="actionButton cursor-pointer float-left">
+                    <i class="fa fa-download" aria-hidden="true"></i>
+                </a>
+                <a *ngIf="wk.isDeployed" (click)="undeployWorkflow(wk)" tooltip="Undeploy" class="actionButton cursor-pointer float-right">
+                    <i class="fa fa-trash" aria-hidden="true"></i>
+                </a>
+            </td>
+        </tr>
+        </tbody>
+        <tfoot>
+        <tr>
+            <td colspan="10">
+                <mfBootstrapPaginator></mfBootstrapPaginator>
+            </td>
+        </tr>
+        </tfoot>
+    </table>
+</div>

@@ -1,0 +1,100 @@
+<h3>Schedule your artifact deployment</h3>
+<div class="row">
+    <form #formCronDeployment="ngForm" (ngSubmit)="submitCronDeployment()">
+        <div class="col-sm-6 col-lg-4">
+                   <div class="form-group">
+                    <label for="label">
+                        Label :
+                    </label>
+                    <input type="text" name="label"  [(ngModel)]="cronDeployment.label" class="form-control" id="label" placeholder="Migration Test Job">
+                </div>
+        </div>
+        <div class="col-sm-6 col-lg-4">
+            <div class="form-group">
+                <label>
+                    Description :
+                </label>
+                <input type="text" name="description" [(ngModel)]="cronDeployment.description" class="form-control" placeholder="This is a test job implemented for TALEND migration">
+            </div>
+        </div>
+        <div class="col-sm-6 col-lg-4">
+            <div class="form-group">
+                <label>
+                    Artifact
+                </label>
+                <select [ngClass]="{'ng-invalid': artifact.value == '', 'ng-valid':  artifact.value != ''}" type="text" [required]="true" class="form-control" name="artifact" #artifact (change)="updateContext(artifact.value)">
+                    <option></option>
+                    <option *ngFor="let artifact of artifacts" value="{{ toStr(artifact) }}">
+                        {{ artifact.name }} ({{ artifact.version }})
+                    </option>
+                </select>
+
+                <div [hidden]="artifact.value != ''"
+                     class="alert alert-danger">
+                    You need to select an artifact
+                </div>
+
+            </div>
+        </div>
+        <div class="col-sm-6 col-lg-4">
+            <div class="form-group">
+                <label>
+                    Context
+                </label>
+                <select class="form-control" name="context" #context [required]="true" (change)="updateContextVal(context.value)">
+                    <option *ngIf="this.cronDeployment.context === null" selected></option>
+                    <option *ngIf="this.cronDeployment.context !== null" selected></option>
+                    <option *ngFor="let context of contexts" value="{{context.label}}">
+                        {{ context.label }}
+                    </option>
+                </select>
+
+                <div [hidden]="this.cronDeployment.context"
+                     class="alert alert-danger">
+                    Context is required
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-lg-4">
+            <div class="form-group">
+                <label for="cron">
+                    Cron
+                </label>
+                <div class="col-md-12">
+                    <div class="col-md-6">
+                        <input minlength="6" [required]="true" type="text"
+                               [(ngModel)]="cronDeployment.cron" #cron="ngModel" name="cron" class="form-control ng-invalid" id="cron" placeholder="0 * * * * ?">
+                        <div [hidden]="cron.valid"
+                             class="alert alert-danger">
+                            Cron is required and must be valid
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <a (click)="openModal(cronGeneratorModal)">Générer un cron</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button [disabled]="!formCronDeployment.valid" type="submit" class="btn btn-success">Submit</button>
+    </form>
+</div>
+
+
+<ng-template #cronGeneratorModal>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Cron Generator</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="cronGeneratorModal.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <cron-editor style="font-size: 10px !important;" [(cron)]="cronExpression" [options]="cronOptions"></cron-editor>
+    </div>
+    <div class="modal-footer">
+
+                <button (click)="closeModal()" type="button" class="btn btn-error" data-dismiss="modal">Close</button>
+
+                <button (click)="getCron()" style="margin-top:6px;" type="button" class="btn btn-success" data-dismiss="modal">Ok</button>
+
+    </div>
+</ng-template>

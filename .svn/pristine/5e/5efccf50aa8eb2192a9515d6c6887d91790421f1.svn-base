@@ -1,0 +1,95 @@
+<div class="fade" *ngIf="isLoading">
+    Loading<br/>
+    <i class="fa fa-spinner fa-spin"></i>
+</div>
+
+<div class="col-3 col-md-5 col-lg-3 col-sm-3">
+    <div class="panel panel-info panel-server" dnd-draggable
+         [dragData]="{server: server, katServerList: katServerList, index: index, id: id}"
+         [ngClass]="[server.selected ? 'selected' : '', (index+1)%4 === 0 ? 'last':'' ]">
+
+        <div class="panel-heading">
+            {{server.name}} ({{server.type}})
+
+            <span *ngIf="!server.isStarted && !server.connecting">
+                    <span class="red">Not connected</span>
+            </span>
+
+            <span *ngIf="server.connecting">
+                    <i class="fa fa-lg fa-spinner fa-spin"></i>
+            </span>
+
+            <span *ngIf="server.isStarted && !server.serverStats"><i class="fa fa-lg fa-spinner fa-spin"></i></span>
+
+            <!--<i class="fa fa-warning fa-lg orange" *ngIf="server.hasCellar === false"
+               tooltip="Cellar is not installed"></i>-->
+
+            <span class="btn-panel-action" *ngIf="server.isStarted && server.serverStats">
+                   <!-- <i *ngIf="right.canEdit" tooltip="Stop" (click)="shutdown(server); $event.stopPropagation()"
+                       class="fa fa-stop fa-lg clickable"></i>
+                    <i *ngIf="right.canEdit" tooltip="Restart" (click)="restart(server); $event.stopPropagation()"
+                       class="fa fa-repeat fa-lg clickable"></i>-->
+            </span>
+            <i *ngIf="right.canEdit" tooltip="Delete"
+               (click)="openModal(removeServerModal); removeServerTemp = server; $event.stopPropagation()"
+               class="fa fa-trash fa-lg red btn-panel clickable"></i>
+        </div>
+        <div class="panel-body">
+            <div class="col-xs-8 numbers">
+                Bundles : {{server.serverStats?.bundlesNumber}}
+                <br>
+                Features : {{server.serverStats?.featuresNumber}}
+            </div>
+            <div class="col-xs-4" class="stats">
+
+                <mwl-gauge
+                        [ngClass]="server.serverStats?.processMemUsage < 30 ? 'green-gauge' : server.serverStats?.processMemUsage > 60  || server.serverStats?.processMemUsage >= 90 ? 'red-gauge' : 'orange-gauge'"
+
+                        tooltip="process memory use : {{server.serverStats?.processMemUsage | number: '1.0-0'}}% - system memory use {{server.serverStats?.systemMemUsage | number: '2.0-0'}}%"
+                        [max]="100"
+                        [dialStartAngle]="180"
+                        [dialEndAngle]="0"
+                        [value]="server.serverStats?.processMemUsage | number: '1.0-0'"
+                        [animated]="true"
+                        [animationDuration]="1">
+
+                </mwl-gauge>
+                <div class="gauge-label">
+                    <i class="fa fa-microchip"></i> RAM
+                </div>
+                <mwl-gauge
+                        [ngClass]="server.serverStats?.processCpuLoad < 30  ? 'green-gauge'
+                                            : server.serverStats?.processCpuLoad > 60 ? 'red-gauge' : 'orange-gauge'"
+
+                        tooltip="process cpu use : {{server.serverStats?.processCpuLoad | number: '1.0-0'}}% - system cpu use : {{server.serverStats?.systemCpuLoad | number: '2.0-0'}}%"
+                        [max]="100"
+                        [dialStartAngle]="180"
+                        [dialEndAngle]="0"
+                        [value]="server.serverStats?.processCpuLoad | number: '1.0-0'"
+                        [animated]="true"
+                        [animationDuration]="1">
+                </mwl-gauge>
+                <div class="gauge-label">
+                    <i class="fa fa-dashboard"></i> CPU
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<ng-template #removeServerModal>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Suppression du serveur {{server.name}}</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="removeServerModal.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        Attention: vous êtes sur le point de supprimer un serveur
+    </div>
+    <div class="modal-footer">
+        <button (click)="closeModal()" type="button" class="btn btn-error" data-dismiss="modal">Annuler</button>
+        <button (click)="deleteServer()" type="button" class="btn btn-success" data-dismiss="modal">Confirmer</button>
+    </div>
+</ng-template>

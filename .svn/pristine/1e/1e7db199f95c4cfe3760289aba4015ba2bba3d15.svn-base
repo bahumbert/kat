@@ -1,0 +1,54 @@
+//@import "../../../../../assets/style/global";
+
+:host {
+  .lonely{
+    margin-top: 20px;
+  }
+
+  .details{
+    margin-top: 20px;
+  }
+
+  #page-wrapper{
+    padding-top: 60px;
+    height: 100vh;
+  }
+
+  .list-bloc{
+    position: relative;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-left: 30px;
+    padding-right: 30px;
+    height: 100%;
+  }
+
+  .details-bloc{
+    background-color: white;
+    position: relative;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-left: 30px;
+    padding-right: 30px;
+    height: 100%;
+  }
+
+  .blue {
+    color: #337ab7;
+  }
+
+  .no-select {
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+  }
+
+  .handle{
+    background-color: #aaa;
+  }
+
+}

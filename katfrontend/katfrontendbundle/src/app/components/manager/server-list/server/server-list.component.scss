@@ -1,0 +1,214 @@
+:host {
+
+  .spinner-right {
+    position: absolute;
+    top: 0;
+    right: 15px;
+    color: #555555;
+    z-index: 1000;
+  }
+
+  a.list-group-item {
+    cursor: pointer;
+  }
+
+  .server-list {
+    max-height: 78vh;
+    overflow-y: auto;
+  }
+
+  .fade {
+    min-height: 200px;
+    top: 0;
+    left: 0;
+  }
+
+  .list-data {
+    margin-top: 20px;
+  }
+
+  .full-div {
+    width: 100%;
+  }
+
+  .min-height {
+    min-height: 45px;
+    margin-top: -2px;
+  }
+
+  .wrap-text {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    max-width: 82%;
+    float: left;
+  }
+
+  .wrap-text-small {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    max-width: 74%;
+    float: left;
+  }
+
+  .btn-list {
+    float: right;
+  }
+
+  .btn-panel {
+    float: right;
+    margin-top: 3px;
+    margin-left: 5px;
+  }
+
+  .btn-line {
+    float: right;
+    margin-right: 2px;
+  }
+
+  .list-group-item {
+    min-height: 45px;
+  }
+
+  .red {
+    color: #ca3838;
+  }
+
+  .green {
+    color: green;
+  }
+
+  .orange {
+    color: orange;
+  }
+
+  .edit-button {
+    margin-top: 2px;
+  }
+
+  .selected {
+    border: 2px solid #18d83b;
+  }
+
+  .selected:not(.last){
+    margin-bottom: -1px;
+
+  }
+
+  .black {
+    color: black;
+  }
+
+  .btn-panel-action {
+    margin-left: 10px;
+  }
+
+  .ng-invalid:not(form) {
+    border-left: 5px solid #a94442;
+  }
+
+  .ng-valid[required], .ng-valid.required {
+    border-left: 5px solid #42A948;
+  }
+
+  .modal.fade {
+    font-weight: normal;
+  }
+
+}
+
+:host /deep/ {
+  mwl-gauge {
+    width: 60px;
+    height: 30px;
+    display: block;
+    margin-top: 10px;
+  }
+  mwl-gauge > .gauge > .dial {
+    stroke: #eeeeee;
+    stroke-width: 130;
+  }
+
+  mwl-gauge.red-gauge > .gauge > .value-text {
+    stroke: #ca3838;
+    fill: #ca3838;
+  }
+
+  mwl-gauge.red-gauge > .gauge > .value {
+    stroke: #ca3838;
+    stroke-width: 130;
+  }
+
+  mwl-gauge.orange-gauge > .gauge > .value-text {
+    stroke: orange;
+    fill: orange;
+  }
+
+  mwl-gauge.orange-gauge > .gauge > .value {
+    stroke: orange;
+    stroke-width: 130;
+  }
+
+  mwl-gauge.green-gauge > .gauge > .value-text {
+    stroke: green;
+    fill: green;
+  }
+
+  mwl-gauge.green-gauge > .gauge > .value {
+    stroke: green;
+    stroke-width: 130;
+  }
+
+  .numbers {
+  }
+
+  .stats {
+    float: right;
+    height: 120px;
+    margin: -15px;
+  }
+  .gauge-label {
+    position: relative;
+    top: 6px;
+    left: 12px;
+    color: #888;
+    font-size: 75%;
+  }
+  .stats-icons {
+    position: absolute;
+    width: 100%;
+    top: 28px;
+  }
+
+  .gauge-div {
+    padding-left: 0px;
+  }
+
+  .cpu-icon {
+    margin-left: 5px;
+  }
+
+  .color-info {
+    color: #89b5be;
+  }
+
+  .btn-info-light {
+    background-color: #d9edf7;
+    color: #31708f;
+  }
+
+  .btn-info-light:hover {
+    background-color: #c8dce6;
+  }
+
+  .bordure-ombre {
+    box-shadow: 8px 8px 12px #aaa; // commande réelle
+    -moz-box-shadow: 8px 8px 12px #aaa; // Firefox < 4
+    -webkit-box-shadow: 8px 8px 12px #aaa; // Chrome < 10 & Safari
+
+    filter: progid:DXImageTransform.Microsoft.Shadow(color='#aaaaaa', Direction=135, Strength=12); // IE < 9
+    zoom: 1;
+  }
+
+}

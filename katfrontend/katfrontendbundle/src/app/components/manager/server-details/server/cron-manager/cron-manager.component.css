@@ -1,0 +1,11 @@
+
+
+.btn-success {
+    float: right;
+    margin-top: 30px;
+}
+
+.nav-tabs>li {
+    float: left;
+    margin-bottom: -1px;
+}

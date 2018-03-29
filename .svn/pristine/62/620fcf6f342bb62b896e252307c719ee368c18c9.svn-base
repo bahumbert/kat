@@ -1,0 +1,80 @@
+<nav *ngIf="right" class="navbar navbar-default navbar-fixed-top" role="navigation" style="margin-bottom: 0">
+  <div class="navbar-header">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+      <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+    <a class="navbar-brand" href="index.html"><img src="assets/favicon.png"/></a>
+  </div>
+
+
+  <div class="navbar-default sidebar" role="navigation">
+    <div class="sidebar-nav navbar-collapse">
+      <ul class="nav" id="side-menu">
+        <li>
+          <a routerLink="/" [class.active]="activePage=='home'">Accueil</a>
+        </li>
+
+        <li *ngIf="right.isAdmin || right.isSuperAdmin">
+          <a (click)="isCollapsedConfig = !isCollapsedConfig" class="cursor-pointer"><i class="fa fa-check-square fa-fw"></i> Configuration</a>
+          <ul class="sub-menu">
+            <li>
+              <a [collapse]="isCollapsedConfig" class="sub-menu cursor-pointer" [class.active]="activePage=='workflow'">
+                <span> <i class="fa fa-cogs fa-fw"></i>
+                  <a routerLink="/workflows" class="cursor-pointer" [class.active]="activePage=='workflows'">Workflows
+                  </a>
+                </span>
+               </a>
+            </li>
+
+            <li>
+              <a [collapse]="isCollapsedConfig" class="sub-menu" [class.active]="activePage=='profiles-right'">
+                <span>
+                  <a (click)="changeRoute('/profiles-right')" class="cursor-pointer" [class.active]="activePage=='profiles-right'">
+                     <i class="fa fa-user fa-fw"></i> Profiles / Rights
+                  </a>
+                </span>
+              </a>
+            </li>
+
+          </ul>
+        </li>
+
+        <li>
+          <a (click)="isCollapsedEnv = !isCollapsedEnv" class="cursor-pointer"><i class="fa fa-server fa-fw"></i> Environments</a>
+          <ul  [collapse]="isCollapsedEnv" class="sub-menu">
+            <li *ngFor="let katEnvironment of katEnvironments">
+              <a (click)="changeRoute('/manager/'+katEnvironment.id)" [class.active]="activePage=='manager'+katEnvironment.id" class="sub-menu cursor-pointer">
+                <span *ngIf="!katEnvironment.editing">{{katEnvironment.name}}</span>
+                <span *ngIf="katEnvironment.editing">
+                  <input class="katEnvironment-input" type="text" [(ngModel)]="katEnvironment.name" (change)="updateEnvironment(katEnvironment)">
+                </span>
+                <i *ngIf="right.canEdit" class="fa fa-trash clickable btn-panel" tooltip="Remove" (click)="removeEnvironment(katEnvironment); $event.stopPropagation()"></i>
+                <i *ngIf="right.canEdit"  class="fa fa-pencil clickable btn-panel" tooltip="Edit" (click)="editEnvironment(katEnvironment); $event.stopPropagation()"></i>
+              </a>
+            </li>
+            <li *ngIf="right.canEdit && right.name != 'OPERATOR'" class="cursor-pointer"><a  class="sub-menu cursor-pointer" (click)="addEnvironment()"><i class="fa fa-plus"></i> Add an katEnvironment</a></li>
+          </ul>
+        </li>
+
+        <li>
+          <a (click)="changeRoute('/uploads')" class="cursor-pointer" [class.active]="activePage=='repository'">
+            <i class="fa fa-database fa-fw"></i> Repository
+          </a>
+        </li>
+
+      </ul>
+    </div>
+    <!-- /.sidebar-collapse -->
+  </div>
+  <!-- /.navbar-static-side -->
+
+  <div class="pull-right col-xs-2" id="logout">
+    <a (click)="logout($event)" class="cursor-pointer">
+      <i class="fa fa-sign-out" aria-hidden="true"></i>
+      <span>Log out ({{ right.username }})</span>
+    </a>
+  </div>
+</nav>

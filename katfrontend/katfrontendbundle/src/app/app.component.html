@@ -1,0 +1,7 @@
+<ng-container *ngIf="isLogged">
+    <nav-bar></nav-bar>
+</ng-container>
+
+<router-outlet></router-outlet>
+
+<simple-notifications [options]="notificationOption"></simple-notifications>

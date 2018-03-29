@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  Licensed to the Apache Software Foundation (ASF) under one or more
+  contributor license agreements.  See the NOTICE file distributed with
+  this work for additional information regarding copyright ownership.
+  The ASF licenses this file to You under the Apache License, Version 2.0
+  (the "License"); you may not use this file except in compliance with
+  the License.  You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.1.0"
+           xmlns:jaxrs="http://cxf.apache.org/blueprint/jaxrs"
+           xsi:schemaLocation="http://www.osgi.org/xmlns/blueprint/v1.0.0 http://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd">
+
+    <!-- Configuration management that reads some parameters from the KAT Backend configuration file
+    and injects them for further use in this blueprint -->
+    <cm:property-placeholder persistent-id="com.idfor.kat.tools.katbackend" update-strategy="reload">
+        <cm:default-properties>
+            <cm:property name="katbackend.default.cxf.services.relative.path" value="/katbackend"/>
+        </cm:default-properties>
+    </cm:property-placeholder>
+
+    <jaxrs:server id="katService" address="${katbackend.default.cxf.services.relative.path}">
+        <jaxrs:serviceBeans>
+            <ref component-id="KatEnvironmentImpl" />
+            <ref component-id="KatServerImpl" />
+            <ref component-id="ZipNexusUploaderImpl" />
+            <ref component-id="AuthRestImpl" />
+            <ref component-id="Workflow" />
+            <ref component-id="KatEnvironmentImpl" />
+            <ref component-id="RoleRestImpl" />
+            <ref component-id="IamContextRestImpl" />
+            <ref component-id="IamGroupRestImpl" />
+            <ref component-id="IamUserRestImpl" />
+            <ref component-id="IamContextGroupRestImpl" />
+        </jaxrs:serviceBeans>
+        <jaxrs:providers>
+            <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
+            <ref component-id="authenticationFilter"/>
+            <ref component-id="authorizationFilter"/>
+            <ref component-id="cors-filter" />
+        </jaxrs:providers>
+    </jaxrs:server>
+
+    <!-- Enables CORS filter -->
+    <bean id="cors-filter" class="org.apache.cxf.rs.security.cors.CrossOriginResourceSharingFilter"/>
+
+    <!-- JAAS authentication bean, the value of contextName corresponds to the realm to use -->
+    <bean id="authenticationFilter" class="com.idfor.kat.tools.UIBackend.service.utils.JaasExtender">
+        <property name="contextName" value="karaf" />
+    </bean>
+
+    <!-- JAAS authorization bean, the value of interceptor points to the bean to use -->
+    <bean id="authorizationFilter" class="org.apache.cxf.jaxrs.security.SimpleAuthorizingFilter">
+        <property name="interceptor" ref="authorizationInterceptor" />
+    </bean>
+
+    <!-- Bean providing JAAS authorization for web services with a list of WS implementetion methods and associated JAAS roles-->
+    <bean id="authorizationInterceptor" class="org.apache.cxf.interceptor.security.SimpleAuthorizingInterceptor">
+        <property name="methodRolesMap">
+            <map>
+                <entry key="postAuth" value="${katbackend.ws.auth.post.auth}"/>
+                <entry key="ping" value="${katbackend.ws.auth.get.auth.ping}"/>
+                <entry key="getSC" value="${katbackend.ws.auth.post.auth}"/>
+                <entry key="getEnvironments" value="${katbackend.ws.auth.get.environments}"/>
+                <entry key="createEnvironment" value="${katbackend.ws.auth.post.environments}"/>
+                <entry key="getEnvironmentById" value="${katbackend.ws.auth.get.environments_environmentid}"/>
+                <entry key="updateEnvironment" value="${katbackend.ws.auth.put.environments_environmentid}"/>
+                <entry key="deleteEnvironment" value="${katbackend.ws.auth.delete.environments_id}"/>
+                <entry key="getClustersByEnvironment" value="${katbackend.ws.auth.get.environments_environmentid.clusters}"/>
+                <entry key="getServer" value="${katbackend.ws.auth.get.environments_environmentid.servers}"/>
+                <entry key="addServer" value="${katbackend.ws.auth.post.environments_environmentid.servers}"/>
+                <entry key="deleteServer" value="${katbackend.ws.auth.delete.environments_environmentid.servers_serverid}"/>
+                <entry key="getServersByEnvironmentAndCluster" value="${katbackend.ws.auth.environments.get.environments_environmentid.clusters_clusterid.server}"/>
+                <entry key="getBrokersByEnvironment" value="${katbackend.ws.auth.get.environments_environmentid.brokers}"/>
+                <entry key="getWorkflows" value="${katbackend.ws.auth.get.workflow}"/>
+                <entry key="getWorkflow" value="${katbackend.ws.auth.get.workflow_workflowid}"/>
+                <entry key="deleteWorkflow" value="${katbackend.ws.auth.delete.workflow_workflowid}"/>
+                <entry key="addWorkflow" value="${katbackend.ws.auth.post.workflow}"/>
+                <entry key="updateWorkflow" value="${katbackend.ws.auth.put.workflow_workflowid}"/>
+                <entry key="getServersAttribute" value="${katbackend.ws.auth.get.servers}"/>
+                <entry key="getServerAttribute" value="${katbackend.ws.auth.get.servers_serverid}"/>
+                <entry key="getKatScheduledJob" value="${katbackend.ws.auth.get.servers_serverid.scheduled-job}"/>
+                <entry key="getArtifacts" value="${katbackend.ws.auth.get.servers_serverid.artifacts}"/>
+                <entry key="deleteKatJob" value="${katbackend.ws.auth.delete.servers_serverid.scheduled-job_fileName}"/>
+                <entry key="changeJobStatus" value="${katbackend.ws.auth.put.servers_serverid.job_pidjob.state-job_status}"/>
+                <entry key="updateServerAttributes" value="${katbackend.ws.auth.put.servers_serverid}"/>
+                <entry key="add" value="${katbackend.ws.auth.post.servers}"/>
+                <entry key="delete" value="${katbackend.ws.auth.delete.servers_serverid_environnementid}"/>
+                <entry key="getBundle" value="${katbackend.ws.auth.get.servers}"/>
+                <entry key="getBundles" value="${katbackend.ws.auth.get.servers_serverid.bundles}"/>
+                <entry key="installBundle" value="${katbackend.ws.auth.get.servers_serverid.bundles_idbundle}"/>
+                <entry key="uninstallBundle" value="${katbackend.ws.auth.delete.servers_serverid.bundles_idbundle}"/>
+                <entry key="startBundle" value="${katbackend.ws.auth.post.servers_serverid.bundle_idbundle.start}"/>
+                <entry key="stopBundle" value="${katbackend.ws.auth.post.servers_serverid.bundle_idbundle.stop}"/>
+                <entry key="restartBundle" value="${katbackend.ws.auth.post.servers_serverid.bundle_idbundle.restart}"/>
+                <entry key="getFeatures" value="${katbackend.ws.auth.get.servers_serverid.features}"/>
+                <entry key="getStatus" value="${katbackend.ws.auth.get.servers_serverid.status}"/>
+                <entry key="getStats" value="${katbackend.ws.auth.get.servers_serverid.stats}"/>
+                <entry key="getIsDeployedArtifact" value="${katbackend.ws.auth.get.servers_serverid.job_jobname.version_version}"/>
+                <entry key="uploadZipOnNexus" value="${katbackend.ws.auth.post.zip_nexus}"/>
+                <entry key="getZipOnNexus" value="${katbackend.ws.auth.get.zip_nexus.token_token}"/>
+                <entry key="deployArtifact" value="${katbackend.ws.auth.post.zip_nexus.deploy.server_serverid}"/>
+                <entry key="deployCronArtifact" value="${katbackend.ws.auth.post.zip_nexus.deploy-cron.server_serverid}"/>
+                <entry key="undeployArtifact" value="${katbackend.ws.auth.delete.zip_nexus.undeploy_artifactname.server_serverid.version_version}"/>
+                <entry key="deployWorkflow" value="${katbackend.ws.auth.post.workflow.deploy_workflow.id_workflow.id_server}"/>
+                <entry key="unDeployWorkflow" value="${katbackend.ws.auth.delete.workflow.un_deploy_workflow.id_server.workflow_file}"/>
+            </map>
+        </property>
+    </bean>
+
+    <!-- WS implementations -->
+    <bean id="KatEnvironmentImpl" class="com.idfor.kat.tools.UIBackend.api.KatRestEnvironmentImpl"/>
+    <bean id="KatServerImpl" class="com.idfor.kat.tools.UIBackend.api.KatRestServerImpl"/>
+    <bean id="ZipNexusUploaderImpl" class="com.idfor.kat.tools.UIBackend.api.ZipNexusUploaderEnvironmentImpl"/>
+    <bean id="Workflow" class="com.idfor.kat.tools.UIBackend.api.WorkflowRestImpl"/>
+    <bean id="AuthRestImpl" class="com.idfor.kat.tools.UIBackend.api.AuthRestImpl"/>
+    <bean id="RoleRestImpl" class="com.idfor.kat.tools.UIBackend.api.IamRoleRestImpl"/>
+    <bean id="IamContextRestImpl" class="com.idfor.kat.tools.UIBackend.api.ContextRestImpl"/>
+    <bean id="IamGroupRestImpl" class="com.idfor.kat.tools.UIBackend.api.IamGroupRestImpl"/>
+    <bean id="IamUserRestImpl" class="com.idfor.kat.tools.UIBackend.api.IamUserRestImpl"/>
+    <bean id="IamContextGroupRestImpl" class="com.idfor.kat.tools.UIBackend.api.IamContextGroupRestImpl"/>
+    <bean class="com.idfor.kat.tools.UIBackend.dao.Orientdb" init-method="start" destroy-method="stop"/>
+
+    <!-- Bean used to monitor KAT Backend config file changes -->
+    <bean id="propertiesWatcherBean" class="com.idfor.kat.tools.UIBackend.run.PropertiesWatcher" init-method="init" destroy-method="destroy">
+        <property name="bundleContext" ref="blueprintBundleContext"/>
+    </bean>
+
+</blueprint>

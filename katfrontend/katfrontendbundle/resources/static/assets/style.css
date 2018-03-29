@@ -1,0 +1,559 @@
+.createButton {
+    margin-top: 25px !important;
+}
+.hover-blue:hover {
+    color:dodgerblue;
+}
+.ng-valid[required], .ng-valid.required  {
+    border-left: 5px solid #42A948; /* green */
+}
+.ui-select-match .valid{
+    border-left: 5px solid #42A948; /* green */
+}
+
+.font-size-medium {
+    font-size: 20px;
+}
+.smallInputs {
+    font-size: 10px;
+    height: 20px;
+}
+.font-size-small {
+    font-size: 10px;
+}
+.pt-10{
+    padding-top: 15px !important;
+}
+.t-al{
+    text-align: left;
+}
+.dnd-drag-start {
+    -moz-transform:scale(0.8);
+    -webkit-transform:scale(0.8);
+    transform:scale(0.8);
+    opacity:0.7;
+    border: 2px dashed #000;
+}
+.dnd-drag-enter {
+    opacity:0.7;
+    border: 2px dashed #000;
+}
+.dnd-drag-over {
+    border: 2px dashed #000;
+}
+.dnd-sortable-drag {
+    -moz-transform:scale(0.9);
+    -webkit-transform:scale(0.9);
+    transform:scale(0.9);
+    opacity:0.7;
+    border: 1px dashed #000;
+}
+.node-menu {
+    position: relative;
+    width: 150px;
+}
+.node-menu .node-menu-content {
+    width: 100%;
+    padding: 5px;
+    position: absolute;
+    border: 1px solid #bdbdbd;
+    border-radius: 5%;
+    box-shadow: 0 0 5px #bdbdbd;
+    background-color: #eee;
+    color: #212121;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    z-index: 999;
+}
+.node-menu .node-menu-content li.node-menu-item {
+    list-style: none;
+    padding: 3px;
+}
+
+.node-menu .node-menu-content .node-menu-item:hover {
+    border-radius: 5%;
+    opacity: unset;
+    cursor: pointer;
+    background-color: #bdbdbd;
+    transition: background-color 0.2s ease-out;
+}
+
+.node-menu .node-menu-content .node-menu-item .node-menu-item-icon {
+    display: inline-block;
+    width: 16px;
+}
+
+.node-menu .node-menu-content .node-menu-item .node-menu-item-icon.new-tag:before {
+    content: '\25CF';
+}
+.node-menu .node-menu-content .node-menu-item .node-menu-item-icon.new-folder:before {
+    content: '\25B6';
+}
+
+.node-menu .node-menu-content .node-menu-item .node-menu-item-icon.rename:before {
+    content: '\270E';
+}
+
+.node-menu .node-menu-content .node-menu-item .node-menu-item-icon.remove:before {
+    content: '\2716';
+}
+
+.node-menu .node-menu-content .node-menu-item .node-menu-item-value {
+    margin-left: 5px;
+}
+
+tree-internal ul {
+    padding: 3px 0 3px 25px;
+}
+
+tree-internal li {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+tree-internal .over-drop-target {
+    border: 4px solid #757575;
+    transition: padding 0.2s ease-out;
+    padding: 5px;
+    border-radius: 5%;
+}
+
+tree-internal .tree {
+    box-sizing: border-box;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+tree-internal .tree li {
+    list-style: none;
+    cursor: default;
+}
+
+tree-internal .tree li div {
+    display: inline-block;
+    box-sizing: border-box;
+}
+
+tree-internal .tree .node-value {
+    display: inline-block;
+    color: #212121;
+}
+
+tree-internal .tree .node-value:after {
+    display: block;
+    padding-top: -3px;
+    width: 0;
+    height: 2px;
+    background-color: #212121;
+    content: '';
+    transition: width 0.3s;
+}
+
+tree-internal .tree .node-value:hover:after {
+    width: 100%;
+}
+
+tree-internal .tree .node-left-menu {
+    display: inline-block;
+    height: 100%;
+    width: auto;
+}
+
+tree-internal .tree .node-left-menu span:before {
+    content: '\2026';
+    color: #757575;
+}
+
+tree-internal .tree .node-selected:after {
+    width: 100%;
+}
+
+tree-internal .tree .folding {
+    width: 25px;
+    display: inline-block;
+    line-height: 1px;
+    padding: 0 5px;
+    font-weight: bold;
+}
+
+tree-internal .tree .folding.node-collapsed {
+    cursor: pointer;
+}
+
+tree-internal .tree .folding.node-collapsed:before {
+    content: '\25B6';
+    color: #757575;
+}
+
+tree-internal .tree .folding.node-expanded {
+    cursor: pointer;
+}
+
+tree-internal .tree .folding.node-expanded:before {
+    content: '\25BC';
+    color: #757575;
+}
+
+tree-internal .tree .folding.node-empty {
+    color: #212121;
+    text-align: center;
+    font-size: 0.89em;
+}
+
+tree-internal .tree .folding.node-empty:before {
+    content: '\25B6';
+    color: #757575;
+}
+
+tree-internal .tree .folding.node-leaf {
+    color: #212121;
+    text-align: center;
+    font-size: 0.89em;
+}
+
+tree-internal .tree .folding.node-leaf:before {
+    content: '\25CF';
+    color: #757575;
+}
+
+tree-internal ul.rootless {
+    padding: 0;
+}
+
+tree-internal div.rootless {
+    display: none !important;
+}
+
+tree-internal .loading-children:after {
+    content: ' loading ...';
+    color: #6a1b9a;
+    font-style: italic;
+    font-size: 0.9em;
+    animation-name: loading-children;
+    animation-duration: 2s;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+}
+
+
+@keyframes loading-children {
+    0%    { color: #f3e5f5; }
+    12.5% { color: #e1bee7; }
+    25%   { color: #ce93d8; }
+    37.5% { color: #ba68c8; }
+    50%   { color: #ab47bc; }
+    62.5% { color: #9c27b0; }
+    75%   { color: #8e24aa; }
+    87.5% { color: #7b1fa2; }
+    100%  { color: #6a1b9a; }
+}
+.color-green{color: darkgreen !important}
+.color-red{color:darkred  !important}
+
+/* Style when highlighting a search. */
+.ui-select-highlight {
+    font-weight: bold;
+}
+
+.ui-select-offscreen {
+    clip: rect(0 0 0 0) !important;
+    width: 1px !important;
+    height: 1px !important;
+    border: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    position: absolute !important;
+    outline: 0 !important;
+    left: 0px !important;
+    top: 0px !important;
+}
+
+
+.ui-select-choices-row:hover {
+    background-color: #f5f5f5;
+}
+
+/* Select2 theme */
+
+/* Mark invalid Select2 */
+.ng-dirty.ng-invalid > a.select2-choice {
+    border-color: #D44950;
+}
+
+.select2-result-single {
+    padding-left: 0;
+}
+
+.select2-locked > .select2-search-choice-close{
+    display:none;
+}
+
+.select-locked > .ui-select-match-close{
+    display:none;
+}
+
+body > .select2-container.open {
+    z-index: 9999; /* The z-index Select2 applies to the select2-drop */
+}
+
+/* Handle up direction Select2 */
+.ui-select-container[theme="select2"].direction-up .ui-select-match {
+    border-radius: 4px; /* FIXME hardcoded value :-/ */
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+.ui-select-container[theme="select2"].direction-up .ui-select-dropdown {
+    border-radius: 4px; /* FIXME hardcoded value :-/ */
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+
+    border-top-width: 1px;  /* FIXME hardcoded value :-/ */
+    border-top-style: solid;
+
+    box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.25);
+
+    margin-top: -4px; /* FIXME hardcoded value :-/ */
+}
+.ui-select-container[theme="select2"].direction-up .ui-select-dropdown .select2-search {
+    margin-top: 4px; /* FIXME hardcoded value :-/ */
+}
+.ui-select-container[theme="select2"].direction-up.select2-dropdown-open .ui-select-match {
+    border-bottom-color: #5897fb;
+}
+
+/* Selectize theme */
+
+/* Helper class to show styles when focus */
+.selectize-input.selectize-focus{
+    border-color: #007FBB !important;
+}
+
+/* Fix input width for Selectize theme */
+.selectize-control > .selectize-input > input {
+    width: 100%;
+}
+
+/* Fix dropdown width for Selectize theme */
+.selectize-control > .selectize-dropdown {
+    width: 100%;
+}
+
+/* Mark invalid Selectize */
+.ng-dirty.ng-invalid > div.selectize-input {
+    border-color: #D44950;
+}
+
+/* Handle up direction Selectize */
+.ui-select-container[theme="selectize"].direction-up .ui-select-dropdown {
+    box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.25);
+
+    margin-top: -2px; /* FIXME hardcoded value :-/ */
+}
+
+/* Bootstrap theme */
+
+/* Helper class to show styles when focus */
+.btn-default-focus {
+    color: #333;
+    background-color: #EBEBEB;
+    border-color: #ADADAD;
+    text-decoration: none;
+    outline: 5px auto -webkit-focus-ring-color;
+    outline-offset: -2px;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);
+}
+
+.ui-select-bootstrap .ui-select-toggle {
+    position: relative;
+}
+
+.ui-select-bootstrap .ui-select-toggle > .caret {
+    position: absolute;
+    height: 10px;
+    top: 50%;
+    right: 10px;
+    margin-top: -2px;
+}
+
+/* Fix Bootstrap dropdown position when inside a input-group */
+.input-group > .ui-select-bootstrap.dropdown {
+    /* Instead of relative */
+    position: static;
+}
+
+.input-group > .ui-select-bootstrap > input.ui-select-search.form-control {
+    border-radius: 4px; /* FIXME hardcoded value :-/ */
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+.input-group > .ui-select-bootstrap > input.ui-select-search.form-control.direction-up {
+    border-radius: 4px !important; /* FIXME hardcoded value :-/ */
+    border-top-right-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+}
+
+.ui-select-bootstrap > .ui-select-match > .btn{
+    /* Instead of center because of .btn */
+    text-align: left !important;
+}
+
+.ui-select-bootstrap > .ui-select-match > .caret {
+    position: absolute;
+    top: 45%;
+    right: 15px;
+}
+
+.ui-disabled {
+    background-color: #eceeef ;
+    border-radius: 4px;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 5;
+    opacity: 0.6;
+    top: 0;
+    left: 0;
+    cursor: not-allowed;
+}
+
+/* See Scrollable Menu with Bootstrap 3 http://stackoverflow.com/questions/19227496 */
+.ui-select-bootstrap > .ui-select-choices {
+    width: 100%;
+    height: auto;
+    max-height: 200px;
+    overflow-x: hidden;
+    margin-top: -1px;
+}
+
+body > .ui-select-bootstrap.open {
+    z-index: 1000; /* Standard Bootstrap dropdown z-index */
+}
+
+.ui-select-multiple.ui-select-bootstrap {
+    height: auto;
+    padding: 3px 3px 0 3px;
+}
+
+.ui-select-multiple.ui-select-bootstrap input.ui-select-search {
+    background-color: transparent !important; /* To prevent double background when disabled */
+    border: none;
+    outline: none;
+    height: 1.666666em;
+    margin-bottom: 3px;
+}
+
+.ui-select-multiple.ui-select-bootstrap .ui-select-match .close {
+    font-size: 1.6em;
+    line-height: 0.75;
+}
+
+.ui-select-multiple.ui-select-bootstrap .ui-select-match-item {
+    outline: 0;
+    margin: 0 3px 3px 0;
+}
+
+.ui-select-multiple .ui-select-match-item {
+    position: relative;
+}
+
+.ui-select-multiple .ui-select-match-item.dropping-before:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 100%;
+    height: 100%;
+    margin-right: 2px;
+    border-left: 1px solid #428bca;
+}
+
+.ui-select-multiple .ui-select-match-item.dropping-after:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 100%;
+    height: 100%;
+    margin-left: 2px;
+    border-right: 1px solid #428bca;
+}
+
+.ui-select-bootstrap .ui-select-choices-row>a {
+    display: block;
+    padding: 3px 20px;
+    clear: both;
+    font-weight: 400;
+    line-height: 1.42857143;
+    color: #333;
+    white-space: nowrap;
+}
+
+.ui-select-bootstrap .ui-select-choices-row>a:hover, .ui-select-bootstrap .ui-select-choices-row>a:focus {
+    text-decoration: none;
+    color: #262626;
+    background-color: #f5f5f5;
+}
+
+.ui-select-bootstrap .ui-select-choices-row.active>a {
+    color: #fff;
+    text-decoration: none;
+    outline: 0;
+    background-color: #428bca;
+}
+
+.ui-select-bootstrap .ui-select-choices-row.disabled>a,
+.ui-select-bootstrap .ui-select-choices-row.active.disabled>a {
+    color: #777;
+    cursor: not-allowed;
+    background-color: #fff;
+}
+
+/* fix hide/show angular animation */
+.ui-select-match.ng-hide-add,
+.ui-select-search.ng-hide-add {
+    display: none !important;
+}
+
+/* Mark invalid Bootstrap */
+.ui-select-bootstrap.ng-dirty.ng-invalid > button.btn.ui-select-match {
+    border-color: #D44950;
+}
+
+/* Handle up direction Bootstrap */
+.ui-select-container[theme="bootstrap"].direction-up .ui-select-dropdown {
+    box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.25);
+}
+
+
+i.fa.fa-check.workflow-play {
+    color: greenyellow !important;
+}
+
+
+i.fa.fa-ban.workflow-play {
+    color: red !important;
+}
+i.fa.fa-exclamation-triangle.workflow-play {
+    color: blue !important;
+}
+.w100 {
+    width: 100%;
+}
+
+.mt-20 {
+    margin-top: 20px;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.modal-body>.alert-danger {
+    height:15px;
+    font-size: 15px;
+    margin-bottom: 0px;
+    padding-top: 0px;
+    padding-bottom: 20px
+}
+
+.list-style-none{
+    list-style: none;
+}

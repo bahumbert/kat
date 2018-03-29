@@ -1,0 +1,20 @@
+<div class="col-md-12">
+
+    <h2>You have selected "{{cluster.name}}"</h2>
+
+    <tabset #staticTabs>
+        <tab heading="Cluster">
+            <cluster-manager              [setCluster]="cluster"   ></cluster-manager>
+        </tab>
+        <tab heading="Bundles" *ngIf="cluster.cellarManager || cluster.type==='virtual'">
+            <cluster-bundle-manager       [setCluster]="cluster"   ></cluster-bundle-manager>
+        </tab>
+        <tab heading="Features" *ngIf="cluster.cellarManager || cluster.type==='virtual'">
+            <cluster-feature-manager      [setCluster]="cluster"   ></cluster-feature-manager>
+        </tab>
+        <tab heading="Repositories" *ngIf="cluster.cellarManager || cluster.type==='virtual'">
+            <cluster-repository-manager   [setCluster]="cluster"   ></cluster-repository-manager>
+        </tab>
+    </tabset>
+
+</div>

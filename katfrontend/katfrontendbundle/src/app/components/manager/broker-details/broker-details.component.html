@@ -1,0 +1,11 @@
+<div class="col-md-12">
+
+    <h2>You have selected "{{broker.name}}"</h2>
+
+    <tabset #staticTabs>
+        <tab heading="Broker">
+            <broker-manager       [setBroker]="broker" (brokerUpdated)="brokerUpdatedEvent($event)" ></broker-manager>
+        </tab>
+    </tabset>
+
+</div>

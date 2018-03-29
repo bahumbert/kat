@@ -1,0 +1,55 @@
+<div class="content relative-div">
+    <div class="column-padding-left"></div>
+    <div class="column-padding-right"></div>
+
+    <div class="fade" *ngIf="isLoading">
+        Loading<br/>
+        <i class="fa fa-spinner fa-spin"></i>
+    </div>
+    <div class="row">
+        <div class="col-md-3 form-group">
+            <label for="filter-field">Filter:</label>
+            <input id="filter-field" class="form-control" [(ngModel)]="filterQuery" placeholder="Filter"/>
+        </div>
+    </div>
+    <table class="table table-striped" [mfData]="data | dataFilter : filterQuery" #mf="mfDataTable" [mfRowsOnPage]="15">
+        <thead>
+        <tr>
+            <th style="width: 30%">
+                <mfDefaultSorter by="name">Name</mfDefaultSorter>
+            </th>
+            <th style="width: 30%">
+                <mfDefaultSorter by="located">Located</mfDefaultSorter>
+            </th>
+            <th style="width: 20%">
+                <mfDefaultSorter by="installed">Installed</mfDefaultSorter>
+            </th>
+            <th style="width: 20%">
+                <mfDefaultSorter by="version">Version</mfDefaultSorter>
+            </th>
+            <th>
+                Actions
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let item of mf.data">
+            <td>{{item.name}}</td>
+            <td>{{item.located}}</td>
+            <td>{{item.installed}}</td>
+            <td>{{item.version}}</td>
+            <td>
+                <i *ngIf="item.installed" class="fa fa-trash clickable" tooltip="Uninstall" (click)="uninstall(item)"></i>
+                <i *ngIf="!item.installed" class="fa fa-download clickable" tooltip="Install" (click)="install(item)"></i>
+            </td>
+        </tr>
+        </tbody>
+        <tfoot>
+        <tr>
+            <td colspan="4">
+                <mfBootstrapPaginator></mfBootstrapPaginator>
+            </td>
+        </tr>
+        </tfoot>
+    </table>
+</div>

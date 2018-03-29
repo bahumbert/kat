@@ -1,0 +1,62 @@
+<div class="content relative-div">
+    <div class="column-padding-left"></div>
+    <div class="column-padding-right"></div>
+
+
+
+
+    <div class="row">
+
+        <div class="col-md-3 form-group">
+            <label for="filter-field">Filter:</label>
+            <input id="filter-field" class="form-control" [(ngModel)]="filterQuery" placeholder="Filter"/>
+        </div>
+
+        <div class="col-md-3 form-group">
+            <label for="upload-bundle" class="btn btn-info btn-file"><i [ngClass]="uploading ? 'fa-spinner fa-spin': 'fa-plus'" class="fa"></i> Upload a bundle</label>
+            <input type="file" id="upload-bundle" style="display: none" #inputFile (change)="uploadFile()"/>
+        </div>
+    </div>
+
+    <table class="table table-striped" [mfData]="data | dataFilter : filterQuery" #mf="mfDataTable" [mfRowsOnPage]="15">
+        <thead>
+        <tr>
+            <th style="width: 30%">
+                <mfDefaultSorter by="name">Name</mfDefaultSorter>
+            </th>
+            <th style="width: 20%">
+                <mfDefaultSorter by="located">Located</mfDefaultSorter>
+            </th>
+            <th style="width: 20%">
+                <mfDefaultSorter by="state">State</mfDefaultSorter>
+            </th>
+            <th style="width: 20%">
+                <mfDefaultSorter by="version">Version</mfDefaultSorter>
+            </th>
+            <th>
+                Actions
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let item of mf.data">
+            <td>{{item.name}}</td>
+            <td>{{item.located}}</td>
+            <td>{{item.state}}</td>
+            <td>{{item.version}}</td>
+            <td>
+                <i class="fa clickable" tooltip="{{item.state == 'Active' ? 'Stop' : 'Start'}}" [ngClass]="item.state == 'Active' ? 'fa-stop' : 'fa-play'" (click)="startOrStop(item)"></i>
+                <i *ngIf="cluster.type!=='cellar'" tooltip="Restart" (click)="restart(item)" class="fa fa-repeat fa-lg clickable"></i>
+                <i class="fa fa-trash clickable" tooltip="Uninstall" (click)="uninstall(item)"></i>
+            </td>
+        </tr>
+        </tbody>
+        <tfoot>
+        <tr>
+            <td colspan="5">
+                <mfBootstrapPaginator></mfBootstrapPaginator>
+            </td>
+        </tr>
+        </tfoot>
+    </table>
+</div>
