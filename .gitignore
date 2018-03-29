@@ -1,4 +1,5 @@
 *.i??
+.svn
 .idea
 .project
 .classpath
