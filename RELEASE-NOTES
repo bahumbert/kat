@@ -50,4 +50,4 @@
 		    KAT 1.0.0
 		    =========
   KAT 1.0.0 is the original release of Keep Administration Trivial. It allows deployment, scheduling and
-  foloow-up of TALEND jobs. Originally meant to be deployed on a Karaf server 4.1.3
+  follow-up of TALEND jobs. Originally meant to be deployed on a Karaf server 4.1.3
