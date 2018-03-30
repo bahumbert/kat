@@ -39,15 +39,15 @@ Currently in development - v1.1.0 Released
 		* `feature:install decanter-appender-elasticsearch-jest`
 
 * Basic configuration :
-        * In directory `${karaf.etc}` of each KATEXEC server, create a new directory called `katexec`
-        * For every KAT server, replace the original `${karaf.etc}/users.properties` file by the one provided in `config` directory
-        * If running different KAT servers on a local machine, you will probably have to reconfigure used ports for each running KAT instance. To do so:
-            * Edit the `${karaf.etc}/org.ops4j.pax.web.cfg` file
-            * Change the line `org.osgi.service.http.port=8181` with desired port number
-            * Save your changes
+	* In directory `${karaf.etc}` of each KATEXEC server, create a new directory called `katexec`
+	* For every KAT server, replace the original `${karaf.etc}/users.properties` file by the one provided in `config` directory
+	* If running different KAT servers on a local machine, you will probably have to reconfigure used ports for each running KAT instance. To do so:
+		* Edit the `${karaf.etc}/org.ops4j.pax.web.cfg` file
+		* Change the line `org.osgi.service.http.port=8181` with desired port number
+		* Save your changes
 
 * Advanced configuration :
-        * Coming SOON with user manual, stay tuned!
+	* Coming SOON with user manual, stay tuned!
 
 At this point, you're all set for a basic KAT experience! Many thanks for using IDFOR KAT.
 
