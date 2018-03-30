@@ -69,7 +69,7 @@
                         <exclude>*.js</exclude>
                         <exclude>*.json</exclude>
                         <exclude>*.log</exclude>
-                        <exclude>*.MD</exclude>
+                        <exclude>*.md</exclude>
                         <exclude>/src/main/resources/db-config.xml</exclude>
                         <exclude>/src/main/resources/config/branding.properties</exclude>
                     </excludes>
