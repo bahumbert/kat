@@ -30,6 +30,7 @@
     <cm:property-placeholder persistent-id="com.idfor.kat.tools.katjobmanager" update-strategy="reload">
         <cm:default-properties>
             <cm:property name="katjobmanager.default.cxf.services.relative.path" value="/katjobmanager"/>
+            <cm:property name="katjobmanager.jaas.realm" value="karaf"/>
         </cm:default-properties>
     </cm:property-placeholder>
 
@@ -59,7 +60,7 @@
 
     <!-- JAAS authentication bean, the value of contextName corresponds to the realm to use -->
     <bean id="authenticationFilter" class="org.apache.cxf.jaxrs.security.JAASAuthenticationFilter">
-        <property name="contextName" value="karaf" />
+        <property name="contextName" value="${katjobmanager.jaas.realm}" />
     </bean>
 
     <!-- JAAS authorization bean, the value of interceptor points to the bean to use -->

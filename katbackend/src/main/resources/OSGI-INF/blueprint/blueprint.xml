@@ -28,6 +28,7 @@
     <cm:property-placeholder persistent-id="com.idfor.kat.tools.katbackend" update-strategy="reload">
         <cm:default-properties>
             <cm:property name="katbackend.default.cxf.services.relative.path" value="/katbackend"/>
+            <cm:property name="katbackend.jaas.realm" value="karaf"/>
         </cm:default-properties>
     </cm:property-placeholder>
 
@@ -58,7 +59,7 @@
 
     <!-- JAAS authentication bean, the value of contextName corresponds to the realm to use -->
     <bean id="authenticationFilter" class="com.idfor.kat.tools.UIBackend.service.utils.JaasExtender">
-        <property name="contextName" value="karaf" />
+        <property name="contextName" value="${katbackend.jaas.realm}" />
     </bean>
 
     <!-- JAAS authorization bean, the value of interceptor points to the bean to use -->
