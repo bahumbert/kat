@@ -527,7 +527,7 @@ export class UrlService {
     }
 
     getAuthUrl() {
-        return 'http://localhost:8182/cxf/kat/auth';
+        return this.getApiUrl() + '/auth';
     }
 
     getPingUrl() {
