@@ -77,11 +77,12 @@ public class ContextUtils {
 
         // Gets list of contexts in directory
         File[] listOfFiles = folder.listFiles();
-        for (int i = 0; i < listOfFiles.length; i++) {
+        if(listOfFiles != null)
+            for (int i = 0; i < listOfFiles.length; i++) {
             String currentFile = listOfFiles[i].getName();
             if (currentFile.lastIndexOf(".properties") != -1 && currentFile.lastIndexOf("-kat.job-") == -1)
                 contextList.add(currentFile.substring(0, currentFile.lastIndexOf(".properties")));
-        }
+            }
 
         // Returns contexts list
         return contextList;
@@ -95,7 +96,7 @@ public class ContextUtils {
      * @return Path to context directory
      */
     public static String getContextPath(String project, String job, String version){
-        String jobAndVer = job + "_" + version.replace(".", "_");
+        String jobAndVer = job.toLowerCase() + "_" + version.replace(".", "_");
         return KatJobManagerProperties.getDefaultBinariesPath() + "/" + job + "/" + version + "/" + job + "/" + project + "/" + jobAndVer + "/contexts";
     }
 

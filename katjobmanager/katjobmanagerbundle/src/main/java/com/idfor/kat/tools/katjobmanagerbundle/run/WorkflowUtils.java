@@ -58,24 +58,25 @@ public class WorkflowUtils {
 
         // Iterates to find all workflows
         // Gets all directories found in binaries directory
-        for (int i = 0; i < listOfFiles.length; i++){
-            String fileName = listOfFiles[i].getName();
-            Matcher matcher = isWorkflow.matcher(fileName);
-            if(matcher.matches()){
-                try {
-                    ObjectMapper mapper = new ObjectMapper();
-                    JsonNode jsonWorkflow = mapper.readTree(listOfFiles[i]);
-                    WorkflowProperties workflow = new WorkflowProperties(fileName, getWorkflowName(jsonWorkflow));
-                    workflows.add(workflow);
+        if(listOfFiles != null)
+            for (int i = 0; i < listOfFiles.length; i++){
+                String fileName = listOfFiles[i].getName();
+                Matcher matcher = isWorkflow.matcher(fileName);
+                if(matcher.matches()){
+                    try {
+                        ObjectMapper mapper = new ObjectMapper();
+                        JsonNode jsonWorkflow = mapper.readTree(listOfFiles[i]);
+                        WorkflowProperties workflow = new WorkflowProperties(fileName, getWorkflowName(jsonWorkflow));
+                        workflows.add(workflow);
 
-                    // Further exploration
-                    String firstJob = getWorkflowFirstJob(jsonWorkflow);
-                }
-                catch (IOException e) {
-                    LOGGER.warn("Unable to parse workflow file: " + fileName);
+                        // Further exploration
+                        String firstJob = getWorkflowFirstJob(jsonWorkflow);
+                    }
+                    catch (IOException e) {
+                        LOGGER.warn("Unable to parse workflow file: " + fileName);
+                    }
                 }
             }
-        }
 
         // Return workflow list
         return workflows;
