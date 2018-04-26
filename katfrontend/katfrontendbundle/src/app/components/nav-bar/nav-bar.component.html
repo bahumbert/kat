@@ -22,15 +22,17 @@
           <ul class="sub-menu">
             <li>
               <a [collapse]="isCollapsedConfig" class="sub-menu cursor-pointer" [class.active]="activePage=='workflow'">
-                <span> <i class="fa fa-cogs fa-fw"></i>
-                  <a routerLink="/workflows" class="cursor-pointer" [class.active]="activePage=='workflows'">Workflows
+                <span>
+
+
+                  <a routerLink="/workflows" class="cursor-pointer" [class.active]="activePage=='workflows'"><i class="fa fa-cogs fa-fw"></i>Workflows
                   </a>
                 </span>
                </a>
             </li>
 
             <li>
-              <a [collapse]="isCollapsedConfig" class="sub-menu" [class.active]="activePage=='profiles-right'">
+              <a [collapse]="isCollapsedConfig" class="sub-menu " [class.active]="activePage=='profiles-right'">
                 <span>
                   <a (click)="changeRoute('/profiles-right')" class="cursor-pointer" [class.active]="activePage=='profiles-right'">
                      <i class="fa fa-user fa-fw"></i> Profiles / Rights

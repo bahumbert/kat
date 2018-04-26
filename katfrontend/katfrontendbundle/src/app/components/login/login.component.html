@@ -1,4 +1,4 @@
-<form name="login" autocomplete="off" (submit)="false" #form>
+<form name="login" autocomplete="off" (submit)="false" (keydown)="enterType($event)" #form>
     <h2>KAT Admin Tools</h2>
 
     <div id="kat-logo">
@@ -8,11 +8,13 @@
     <div class="pretty-input" [class.focused]="inputUsr.value.length > 0 || inputUsrFocused">
 
         <input type="text"
+               name="username"
                class="form-control"
                id="input-usr"
                autocomplete="nope"
                (focus)="inputUsrFocused = true"
                (blur)="inputUsrFocused = false"
+               (keyup)="changeUsername($event)"
                #inputUsr>
 
         <i class="fa fa-user" aria-hidden="true"></i>
@@ -22,12 +24,14 @@
 
     <div class="pretty-input" [class.focused]="inputPwd.value.length > 0 || inputPwdFocused">
 
-        <input type="password"
+        <input [ngModel]="password" type="password"
                class="form-control"
+               name="password"
                id="input-pwd"
                autocomplete="new-password"
                (focus)="inputPwdFocused = true"
                (blur)="inputPwdFocused = false"
+               (keyup)="changePassword($event)"
                #inputPwd>
 
         <i class="fa fa-lock" aria-hidden="true"></i>

@@ -12,7 +12,7 @@
  * limitations under the License.
  */
 
-import { Component, Input, OnInit, EventEmitter, Output } from '@angular/core';
+import {Component, Input, OnInit, EventEmitter, Output, ViewChild} from '@angular/core';
 import { CurrentPageService } from '../../services/communication/current-page.service';
 import { AuthService } from '../../services/auth/auth.service';
 import { UserService } from '../../services/auth/user.service';
@@ -28,6 +28,8 @@ import { NotificationsService } from 'angular2-notifications';
 })
 export class LoginComponent {
 
+    username: string;
+    password:string;
     inputPwdFocused = false;
     inputUsrFocused = false;
     isLoading = false;
@@ -64,5 +66,31 @@ export class LoginComponent {
         );
 
         return false;
+    }
+
+    changePassword($event){
+        this.password = $event.target.value;
+    }
+
+    changeUsername($event){
+        this.username = $event.target.value;
+    }
+
+    enterType(event:any){
+        if(event.keyCode == 13){
+            this.userService.getAuth(this.username, this.password).subscribe(
+                result => {
+                    localStorage.setItem('user', JSON.stringify(result));
+
+                    this.isLoading = false;
+                    this.router.navigate(['/home']);
+                },
+                error => {
+
+                    this.notificationService.error('Erreur', 'Invalid login');
+                    this.isLoading = false;
+                }
+            );
+        }
     }
 }
