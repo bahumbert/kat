@@ -389,11 +389,41 @@ public class JobManagerWebServicesImpl implements JobManagerWebServices {
     /**
      * Removes mail alerting for passed schedule file
      * @param scheduleFile file used to schedule concerned job
-     * @return true if mail alerting could be set, false otherwise
+     * @return true if mail alerting could be removed, false otherwise
      */
     @Override
     public boolean removeMailAlert(String scheduleFile) {
         return AlertUtils.removeAlerts(AlertUtils.AlertTypes.EMAIL, scheduleFile);
+    }
+
+    /**
+     * Gets JVM options for given schedule file
+     * @param scheduleFile file used to schedule concerned job
+     * @return a string object containing JVM options
+     */
+    @Override
+    public JvmOptions getJvmOptions(String scheduleFile) {
+        return BinariesUtils.getJvmOptions(scheduleFile);
+    }
+
+    /**
+     * Sets JVM options for given schedule file
+     * @param request a JvmOptions object containing the schedule file, the option and their activation flag
+     * @return true if JVM options could be set, false otherwise
+     */
+    @Override
+    public boolean setJvmOptions(JvmOptions request) {
+        return BinariesUtils.setJvmOptions(request);
+    }
+
+    /**
+     * Removes JVM options for given schedule file
+     * @param scheduleFile file used to schedule concerned job
+     * @return true if JVM options could be removed, false otherwise
+     */
+    @Override
+    public boolean removeJvmOptions(String scheduleFile) {
+        return BinariesUtils.removeJvmOptions(scheduleFile);
     }
 
     /**

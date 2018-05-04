@@ -84,6 +84,9 @@
                 <entry key="getMailAlert" value="${katjobmanager.ws.auth.get.alerts.mail_schedulefile}"/>
                 <entry key="setMailAlert" value="${katjobmanager.ws.auth.post.alerts.mail}"/>
                 <entry key="removeMailAlert" value="${katjobmanager.ws.auth.delete.alerts.mail_schedulefile}"/>
+                <entry key="getJvmOptions" value="${katjobmanager.ws.auth.get.jvmoptions_schedulefile}"/>
+                <entry key="setJvmOptions" value="${katjobmanager.ws.auth.post.jvmoptions}"/>
+                <entry key="removeJvmOptions" value="${katjobmanager.ws.auth.delete.jvmoptions_schedulefile}"/>
                 <entry key="getSmsAlert" value="${katjobmanager.ws.auth.get.alerts.sms_schedulefile}"/>
                 <entry key="setSmsAlert" value="${katjobmanager.ws.auth.post.alerts.sms}"/>
                 <entry key="removeSmsAlert" value="${katjobmanager.ws.auth.delete.alerts.sms_schedulefile}"/>

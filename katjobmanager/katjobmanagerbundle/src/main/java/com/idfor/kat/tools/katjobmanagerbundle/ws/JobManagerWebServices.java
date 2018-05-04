@@ -152,12 +152,37 @@ public interface JobManagerWebServices {
     boolean setMailAlert(AlertProperties request);
 
     /**
-     * WS at address /cxf/katjobmanager/alerts/mail - Suppress all mail alerts in case job deployed by this file pid has execution errors
-     * @return True if mail alerting could be set, false otherwise
+     * WS at address /cxf/katjobmanager/alerts/mail - Removes all mail alerts in case job deployed by this file pid has execution errors
+     * @return True if mail alerting could be removed, false otherwise
      */
     @DELETE
     @Path("/alerts/mail/{scheduleFile}")
     boolean removeMailAlert(@PathParam("scheduleFile") String scheduleFile);
+
+    /**
+     * WS at address /cxf/katjobmanager/jvmoptions - Gets JVM options for given schedule file
+     * @return JSON representation with all JVM options and the overall state (active or not)
+     */
+    @GET
+    @Path("/jvmoptions/{scheduleFile}")
+    JvmOptions getJvmOptions(@PathParam("scheduleFile") String scheduleFile);
+
+    /**
+     * WS at address /cxf/katjobmanager/jvmoptions - Sets JVM options for given schedule file
+     * @return True if JVM options could be set, false otherwise
+     */
+    @POST
+    @Consumes ({MediaType.APPLICATION_JSON, "text/json"})
+    @Path("/jvmoptions")
+    boolean setJvmOptions(JvmOptions request);
+
+    /**
+     * WS at address /cxf/katjobmanager/jvmoptions - Removes JVM options for given schedule file
+     * @return True if JVM options could be removed, false otherwise
+     */
+    @DELETE
+    @Path("/jvmoptions/{scheduleFile}")
+    boolean removeJvmOptions(@PathParam("scheduleFile") String scheduleFile);
 
     /**
      * WS at address /cxf/katjobmanager/alerts/sms - Gets list of sms alerts in case job deployed by this file pid has execution errors

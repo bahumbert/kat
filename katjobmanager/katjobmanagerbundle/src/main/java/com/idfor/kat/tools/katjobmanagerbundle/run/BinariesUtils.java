@@ -18,8 +18,14 @@
 package com.idfor.kat.tools.katjobmanagerbundle.run;
 
 import com.idfor.kat.tools.katjobmanagerbundle.beans.BinariesProperties;
+import com.idfor.kat.tools.katjobmanagerbundle.beans.JvmOptions;
 import com.idfor.kat.tools.katjobmanagerbundle.beans.KatJobManagerProperties;
+import org.apache.felix.utils.properties.Properties;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -29,6 +35,7 @@ import java.util.List;
   */
 public class BinariesUtils {
 
+    private final static Logger LOGGER = LoggerFactory.getLogger(BinariesUtils.class);
     /**
      * Method that scans deploy binaries directory and returns a list of deployed jobs
      * @return a list of deployed binaries including job name, version, project and available contexts
@@ -101,5 +108,94 @@ public class BinariesUtils {
 
         // Returns list of available versions
         return versions;
+    }
+
+    /**
+     * Gets JVM options for given schedule file
+     * @param scheduleFile file used to schedule job execution
+     * @return
+     */
+    public static JvmOptions getJvmOptions(String scheduleFile){
+
+        // We haven't found any property yet;
+        JvmOptions jvmOptions = new JvmOptions();
+
+        try {
+
+            // Checks scheduled job configuration file
+            String base = System.getProperty("karaf.etc");
+            Properties props = new Properties(new File(base, "katexec/" + scheduleFile));
+
+            // Get JVM options and activation status
+            jvmOptions.setJvmOptions(props.get("job.jvm.options.list"));
+            jvmOptions.setActive(props.get("job.jvm.options.active"));
+
+            // Set schedule file back
+            jvmOptions.setScheduleFile(scheduleFile);
+
+        } catch (IOException e) {
+            LOGGER.error("Unable to get JVM options for schedule file *** " + scheduleFile + " ***");
+        }
+        return jvmOptions;
+    }
+
+    /**
+     * Sets JVM options for given schedule file
+     * @param jvmOptions a JvmOptions object containing the schedule file, the option and their activation flag
+     * @return true if setting was OK, false otherwise
+     */
+    public static boolean setJvmOptions(JvmOptions jvmOptions){
+
+        // We' assume everything went OK
+        boolean ok = true;
+
+        try {
+
+            // Prepares scheduled job configuration file for writing
+            String base = System.getProperty("karaf.etc");
+            Properties props = new Properties(new File(base, "katexec/" + jvmOptions.getScheduleFile()));
+
+            // Sets JVM options and state
+            props.put("job.jvm.options.list", jvmOptions.getJvmOptions());
+            props.put("job.jvm.options.active", Boolean.toString(jvmOptions.isActive()));
+
+            // Save changes to property file
+            props.save();
+
+        } catch (IOException e) {
+            ok = false;
+            LOGGER.error("Unable to set JVM options for schedule file *** " + jvmOptions.getScheduleFile() + " ***");
+        }
+        return ok;
+    }
+
+    /**
+     * Removes JVM options for given schedule file
+     * @param scheduleFile file used to schedule job execution
+     * @return true if removing was OK, false otherwise
+     */
+    public static boolean removeJvmOptions(String scheduleFile){
+
+        // We' assume everything went OK
+        boolean ok = true;
+
+        try {
+
+            // Prepares scheduled job configuration file for writing
+            String base = System.getProperty("karaf.etc");
+            Properties props = new Properties(new File(base, "katexec/" + scheduleFile));
+
+            // Removes JVM options and state
+            props.remove("job.jvm.options.list");
+            props.remove("job.jvm.options.active");
+
+            // Save changes to property file
+            props.save();
+
+        } catch (IOException e) {
+            ok = false;
+            LOGGER.error("Unable to remove JVM options for schedule file *** " + scheduleFile + " ***");
+        }
+        return ok;
     }
 }
