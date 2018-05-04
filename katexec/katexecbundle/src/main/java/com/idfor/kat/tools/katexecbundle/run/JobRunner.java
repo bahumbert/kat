@@ -56,6 +56,10 @@ public class JobRunner implements Runnable {
      */
     private ProcessBuilder getProcessBuilder(JobProperties job) throws IOException {
 
+        // Heap space set flags
+        boolean isXmsSet = false;
+        boolean isXmxSet = false;
+
         // Get the right script file according OS
         String executionPath = job.getBinariesPath() + "/" + job.getName() + "/" + job.getVersion() + "/" + job.getName();
         String scriptFile = executionPath  + "/" + job.getName() + "_run";
@@ -72,8 +76,34 @@ public class JobRunner implements Runnable {
         // Analyzes, modifies and replaces to get final parts
         List<String> processBuilderArguments = new ArrayList<String>();
         for(String javaCommandPart: javaCommandParts){
-            if(javaCommandPart.startsWith("-Xms")) processBuilderArguments.add("-Xms" + job.getInitialJavaHeapSpace());
-            else if(javaCommandPart.startsWith("-Xmx")) processBuilderArguments.add("-Xmx" + job.getMaximumJavaHeapSpace());
+
+            // Add JVM options
+            // This has to be added just after the java statement
+            if(javaCommandPart.equals("java")){
+
+                // Add java command as first argument before adding possible options
+                processBuilderArguments.add("java");
+
+                // Loop through JVM options to add them all if any and if active
+                if(job.isJvmActive() && job.getJvmOptions() != null && job.getJvmOptions() != ""){
+                    String[] javaOptions = job.getJvmOptions().split(" ");
+                    for(String javaOption: javaOptions) {
+                        processBuilderArguments.add(javaOption);
+
+                        // If initial and max java heap spaces has been set from java options,
+                        // do not set them again with the schedule file ones or the default ones
+                        if(javaOption.startsWith("-Xms")) isXmsSet = true;
+                        if(javaOption.startsWith("-Xmx")) isXmxSet = true;
+                    }
+                }
+            }
+
+            // Overload java heap space by the ones found in schedule file - or at application level if none is specified
+            // Only if not already done by JVM options
+            else if(!isXmsSet && javaCommandPart.startsWith("-Xms")) processBuilderArguments.add("-Xms" + job.getInitialJavaHeapSpace());
+            else if(!isXmxSet && javaCommandPart.startsWith("-Xmx")) processBuilderArguments.add("-Xmx" + job.getMaximumJavaHeapSpace());
+
+            // Overload context by the one found in schedule file - or at application level if none is specified
             else if(javaCommandPart.startsWith("--context")){
 
                 // If context is overloaded, use overloaded properties file

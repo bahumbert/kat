@@ -43,6 +43,8 @@ public class JobProperties {
     private String smsList;
     private boolean smsActive;
     private String nextExecution;
+    private String jvmOptions;
+    private boolean jvmActive;
 
     public String getPid() {
         return pid;
@@ -126,6 +128,14 @@ public class JobProperties {
 
     public String getNextExecution() {
         return nextExecution;
+    }
+
+    public String getJvmOptions() {
+        return jvmOptions;
+    }
+
+    public boolean isJvmActive() {
+        return jvmActive;
     }
 
     public void setPid(String pid) {
@@ -222,6 +232,14 @@ public class JobProperties {
 
     public void setNextExecution(String nextExecution) {
         this.nextExecution = nextExecution;
+    }
+
+    public void setJvmOptions(String jvmOptions) {
+        this.jvmOptions = jvmOptions;
+    }
+
+    public void setJvmActive(boolean jvmActive) {
+        this.jvmActive = jvmActive;
     }
 
     @Override

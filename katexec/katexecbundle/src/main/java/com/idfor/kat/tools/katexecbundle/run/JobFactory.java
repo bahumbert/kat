@@ -150,6 +150,8 @@ public class JobFactory implements ManagedServiceFactory {
         job.setMailActive(Boolean.parseBoolean((String)jobProperties.get("job.alert.mail.active")));
         job.setSmsList((String)jobProperties.get("job.alert.sms.list"));
         job.setSmsActive(Boolean.parseBoolean((String)jobProperties.get("job.alert.sms.active")));
+        job.setJvmOptions((String)jobProperties.get("job.jvm.options.list"));
+        job.setJvmActive(Boolean.parseBoolean((String)jobProperties.get("job.jvm.options.active")));
 
         // Get a scheduler instance
         ServiceReference schedulerReference = bundleContext.getServiceReference(Scheduler.class.getName());
