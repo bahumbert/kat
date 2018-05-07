@@ -17,16 +17,13 @@
 
 package com.idfor.kat.tools.UIBackend.api;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.idfor.kat.tools.UIBackend.dao.ClusterRepository;
 import com.idfor.kat.tools.UIBackend.dao.EnvironmentRepository;
 import com.idfor.kat.tools.UIBackend.dao.ServerRepository;
 import com.idfor.kat.tools.UIBackend.model.*;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import org.eclipse.jetty.http.HttpHeader;
+import com.idfor.kat.tools.UIBackend.model.JvmOptions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,17 +34,12 @@ import javax.management.openmbean.TabularData;
 import javax.management.remote.JMXConnector;
 import javax.management.remote.JMXConnectorFactory;
 import javax.management.remote.JMXServiceURL;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.client.*;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.Response;
 
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.Hashtable;
 import java.util.List;
 
@@ -270,6 +262,52 @@ public  class KatRestServerImpl implements KatRestServer {
     }
 
     @Override
+    public String postJobJVMOptions(String serverId, JvmOptions data, HttpHeaders headers){
+        KatServer s = serverRepository.findOneById(serverId);
+        StringBuffer response = new StringBuffer();
+        try {
+            String url = s.getJolokiaUrl()+"/cxf/katjobmanager/jvmoptions";
+            logger.info(url);
+            URL obj = new URL(url);
+
+            HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+            String basicAuth = headers.getHeaderString("Authorization");
+            con.setRequestProperty ("Authorization", basicAuth);
+            con.setRequestProperty("Charset", "UTF-8");
+            con.setRequestMethod("POST");
+            con.setRequestProperty("Content-Type","application/json");
+
+            String putJsonData;
+
+            putJsonData = "{\n" +
+                    "    \"scheduleFile\": \""+data.getScheduleFile()+"\",\n" +
+                    "    \"jvmOptions\": \""+data.getOptions()+"\",\n" +
+                    "    \"active\": "+data.getActive()+"\n" +
+                    "}";
+
+            // Send post request
+            con.setDoOutput(true);
+            DataOutputStream wr = new DataOutputStream(con.getOutputStream());
+            wr.writeBytes(putJsonData);
+
+            BufferedReader in = new BufferedReader(
+                    new InputStreamReader(con.getInputStream(), "utf-8"));
+            String inputLine;
+
+            while ((inputLine = in.readLine()) != null) {
+                response.append(inputLine);
+            }
+            wr.flush();
+            wr.close();
+
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return response.toString();
+    }
+
+    @Override
     public List<KatServer> getServersAttributes( Boolean lonely) {
         if (lonely == null || !lonely) {
             return serverRepository.findAll();
@@ -428,6 +466,37 @@ public  class KatRestServerImpl implements KatRestServer {
         StringBuffer response = new StringBuffer();
         try {
             String url = s.getJolokiaUrl()+"/cxf/katjobmanager/alerts/mail/"+ pidJob;
+
+            URL obj = new URL(url);
+            HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+
+            String basicAuth = headers.getHeaderString("Authorization");
+
+            con.setRequestProperty ("Authorization", basicAuth);
+            con.setRequestMethod("GET");
+            con.setRequestProperty("Charset", "UTF-8");
+
+            BufferedReader in = new BufferedReader(
+                    new InputStreamReader(con.getInputStream(), "utf-8"));
+            String inputLine;
+
+            while ((inputLine = in.readLine()) != null) {
+                response.append(inputLine);
+            }
+            in.close();
+        } catch (Exception e){
+            logger.info(e.getMessage());
+        }
+        return response.toString();
+    }
+
+    @Override
+    public String getJobJvmOptions(String serverId, String pidJob, HttpHeaders headers) {
+        KatServer s = serverRepository.findOneById(serverId);
+
+        StringBuffer response = new StringBuffer();
+        try {
+            String url = s.getJolokiaUrl()+"/cxf/katjobmanager/jvmoptions/"+ pidJob;
 
             URL obj = new URL(url);
             HttpURLConnection con = (HttpURLConnection) obj.openConnection();

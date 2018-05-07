@@ -18,14 +18,12 @@
 package com.idfor.kat.tools.UIBackend.api;
 
 import com.idfor.kat.tools.UIBackend.model.*;
+import com.idfor.kat.tools.UIBackend.model.JvmOptions;
 import org.apache.cxf.rs.security.cors.CrossOriginResourceSharing;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.MediaType;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.List;
 
 @CrossOriginResourceSharing(
@@ -152,6 +150,15 @@ public interface KatRestServer {
                            @PathParam(value = "pidJob") String pidJob,
                            @Context HttpHeaders headers);
 
+    /**
+     */
+    @Path(value = "/{serverId}/jvm/{pidJob}/params")
+    @Consumes("application/json")
+    @Produces("application/json")
+    @GET
+    String getJobJvmOptions(@PathParam(value = "serverId") String serverId,
+                           @PathParam(value = "pidJob") String pidJob,
+                           @Context HttpHeaders headers);
 
     /**
      */
@@ -193,6 +200,15 @@ public interface KatRestServer {
                             MailNotif data,
                             @Context HttpHeaders headers);
 
+    /**
+     */
+    @Path(value = "/{serverId}/jvm/params")
+    @Consumes("application/json")
+    @Produces("application/json")
+    @POST
+    String postJobJVMOptions(@PathParam(value = "serverId") String serverId,
+                             JvmOptions data,
+                             @Context HttpHeaders headers);
 
     /**@param serverId
      * Update server attributes identified by serverId
