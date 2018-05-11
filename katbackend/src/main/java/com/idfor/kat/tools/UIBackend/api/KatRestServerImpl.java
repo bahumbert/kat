@@ -281,7 +281,7 @@ public  class KatRestServerImpl implements KatRestServer {
 
             putJsonData = "{\n" +
                     "    \"scheduleFile\": \""+data.getScheduleFile()+"\",\n" +
-                    "    \"jvmOptions\": \""+data.getOptions()+"\",\n" +
+                    "    \"options\": \""+data.getOptions()+"\",\n" +
                     "    \"active\": "+data.getActive()+"\n" +
                     "}";
 
