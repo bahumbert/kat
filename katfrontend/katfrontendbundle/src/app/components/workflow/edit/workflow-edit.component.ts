@@ -20,6 +20,7 @@ import { Workflow } from '../../../model/Workflow';
 import { ActivatedRoute, Router } from '@angular/router';
 import {AuthService} from "../../../services/auth/auth.service";
 import {IamUser} from "../../../model/Iam/iamUser";
+import {toNumber} from "ngx-bootstrap/timepicker/timepicker.utils";
 
 @Component({
     changeDetection: ChangeDetectionStrategy.OnPush,
@@ -179,6 +180,7 @@ export class WorkflowEditComponent implements OnInit {
     }
 
     onNodeSelected($event) {
+        console.log($event);
         if (this.ngSelect) {
             this.ngSelect.active = [];
         }
@@ -239,6 +241,8 @@ export class WorkflowEditComponent implements OnInit {
                 children: []
             });
             type = 'success';
+
+
         }
 
         if (e.selectedItem === 'On Failure') {
@@ -257,6 +261,8 @@ export class WorkflowEditComponent implements OnInit {
                 children: []
             });
             type = 'error';
+
+
         }
 
         if (e.selectedItem === 'Then') {
@@ -276,6 +282,7 @@ export class WorkflowEditComponent implements OnInit {
                 children: []
             });
             type = 'then';
+
         }
         let workflow = new Task();
         workflow.name = name;
@@ -303,8 +310,21 @@ export class WorkflowEditComponent implements OnInit {
         // console.log('New search input: ', value);
     }
 
-    private onNodeCreated(value: any) {
-        // console.log('New search input: ', value);
+    private onNodeCreated ($event): void {
+
+        console.log($event.node.node);
+
+        if (this.ngSelect) {
+            this.ngSelect.active = [];
+        }
+        this.selectValues = [];
+        this.nexusArtifacts.forEach(art => {
+            this.selectValues.push({text: art.name + ' - ' + art.version, id: art.url});
+        });
+
+        this.currentTask = this.completeTasks.filter(task => task.id == $event.node.node.id)[0];
+
+        this.tree.getController().changeNodeId($event.node.node.id);
     }
 
     private refreshValue(value: Artifact) {
@@ -375,5 +395,28 @@ export class WorkflowEditComponent implements OnInit {
             });
         }
     }
+
+    private selectNode(idNode: number) {
+        if (this.ngSelect) {
+            this.ngSelect.active = [];
+        }
+        this.selectValues = [];
+        this.nexusArtifacts.forEach(art => {
+            this.selectValues.push({text: art.name + ' - ' + art.version, id: art.url});
+        });
+
+        this.currentId = idNode;
+        this.currentTask = this.completeTasks.filter(task => task.id == idNode.toString())[0];
+        console.log(this.currentTask);
+    }
+
+    public handleActionOnFFS(id: number ) {
+
+        let action ="select";
+        console.log(this.tree);
+        const treeController = this.tree.getControllerByNodeId(2);
+            treeController[action]();
+        }
 }
+
 

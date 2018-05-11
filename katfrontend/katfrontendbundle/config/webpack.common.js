@@ -64,7 +64,7 @@ module.exports = function (options) {
     },
 
     /*
-     * Options affecting the resolving of modules.
+     * options affecting the resolving of modules.
      *
      * See: http://webpack.github.io/docs/configuration.html#resolve
      */
@@ -83,7 +83,7 @@ module.exports = function (options) {
     },
 
     /*
-     * Options affecting the normal modules.
+     * options affecting the normal modules.
      *
      * See: http://webpack.github.io/docs/configuration.html#module
      */

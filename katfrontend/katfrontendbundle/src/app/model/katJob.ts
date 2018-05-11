@@ -22,6 +22,8 @@ export class KatJob{
     scheduling: string;
     running: boolean;
     mailActive: boolean;
+    paramActive: boolean = false;
+
 /*    notifySms: string[] = [];*/
 
     static fromObject(obj) {

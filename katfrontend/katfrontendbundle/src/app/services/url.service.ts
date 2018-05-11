@@ -83,10 +83,28 @@ export class UrlService {
         idServer = idServer.replace(/#/g, '%23');
         return this.getServerUrl() + '/' + idServer + '/alert-mail' ;
     }
+
     getEmailAlert(pidFile: string, idServer: string): string {
         idServer = idServer.replace(/#/g, '%23');
         return this.getServerUrl() + '/' + idServer + '/job/' + pidFile + '/alert-mail' ;
     }
+
+    postJvmParams( idServer: string): string {
+        idServer = idServer.replace(/#/g, '%23');
+        return this.getServerUrl()  + '/' + idServer + '/jvm/params';
+    }
+
+    getParams(pidFile: string, idServer: string): string {
+        idServer = idServer.replace(/#/g, '%23');
+        return this.getServerUrl() + '/' + idServer + '/jvm/' + pidFile + '/params' ;
+    }
+
+    getOptions(pidFile: string, idServer: string): string {
+        return this.getServerUrl() + '/' + idServer + '/jvm/' + pidFile + '/params' ;
+    }
+
+
+
     getArtifactDeploymentStepUrl(idServer, nameJob, version): string {
         idServer = idServer.replace(/#/g, '%23');
         return this.getServerUrl() + '/' + idServer + '/job/' + nameJob + '/version/' + version;

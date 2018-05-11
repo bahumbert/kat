@@ -26,6 +26,7 @@ import { IamRight } from '../../../../../model/Iam/iamRight';
 import { AuthService } from '../../../../../services/auth/auth.service';
 import { ScheduleUpdater } from '../../../../../model/scheduleUpdater';
 import { CronOptions } from 'cron-editor/cron-editor';
+import {ParamJvm} from "../../../../../model/paramJvm";
 
 
 
@@ -49,11 +50,16 @@ export class ScheduledCronManagerComponent implements OnInit{
     currentMailNotif: MailNotif;
     currentOverridedContext: OverridedContext;
     dataToUpdate: ScheduleUpdater;
+    paramJvm: ParamJvm = new ParamJvm();
+
+
     @Input()
     set setServer(server: KatServer) {
         this.server = server;
         this.ngOnInit();
     }
+
+
 
     @Output()
     deleteScheduller = new EventEmitter();
@@ -88,9 +94,11 @@ export class ScheduledCronManagerComponent implements OnInit{
                        }
                     });
                     if ( adding || this.right.isAdmin || this.right.isSuperAdmin ) {
-                    this.serverService.getEmailAlert( res.propertyFile, this.server.id ).subscribe(emails => {
+                        this.serverService.getEmailAlert( res.propertyFile, this.server.id ).subscribe(emails => {
                         res.mailActive = emails.active;
                     });
+
+
                     this.scheduledCron.push(KatJob.fromObject(res));
                     }
                 });
@@ -127,10 +135,12 @@ export class ScheduledCronManagerComponent implements OnInit{
                 if (sc.pid === pid) {
                     if (status === 'resume') {
                         sc.state = 'active';
+
                     }
                     if (status === 'pause') {
                         sc.state = 'paused';
                     }
+
 
                     if (status === 'start') {
                         sc.running = true;
@@ -138,6 +148,8 @@ export class ScheduledCronManagerComponent implements OnInit{
                     if (status === 'kill') {
                         sc.running = false;
                     }
+
+
                 }
             });
         });
@@ -168,6 +180,19 @@ export class ScheduledCronManagerComponent implements OnInit{
         this.selectedKatJob = katJob;
         this.modalRef = this.modalService.show(template);
     }*/
+    openModalParam(template: TemplateRef<any>, katJob) {
+
+        this.selectedKatJob = katJob;
+
+
+        //ICI on cré une requete get et on affecte le resultat à paramJvm
+
+        this.serverService.getParam(katJob.propertyFile, this.server.id).subscribe( res => {
+            this.paramJvm = res;
+        });
+
+        this.modalRef = this.modalService.show(template);
+    }
 
     openModalMail(template: TemplateRef<any>, katJob) {
         this.selectedKatJob = katJob;
@@ -214,15 +239,50 @@ export class ScheduledCronManagerComponent implements OnInit{
         this.serverService.postEmailAlert(this.server.id, this.currentMailNotif).subscribe();
     }
 
-/*
-    removeOneTel(katJobTel) {
-        let katJob = this.scheduledCron.filter(x => x.pid === this.selectedKatJob.pid)[0];
-        const index: number = katJob.notifySms.indexOf(katJobTel);
-        if (index !== -1) {
-            katJob.notifySms.splice(index, 1);
-        }
+    validParam() {
+
+           this.paramJvm.scheduleFile = this.selectedKatJob.propertyFile;
+           console.log(this.paramJvm);
+        this.serverService.postParamJvm(this.server.id , this.paramJvm).subscribe(then => {
+            alert('bien jouée');
+        });
+
+        // envoi une requete post avec le param jvm en body
+
     }
-*/
+
+    enableParams() {
+        this.paramJvm.active = true;
+
+        this.paramJvm.scheduleFile = this.selectedKatJob.propertyFile;
+        this.serverService.postParamJvm(this.server.id , this.paramJvm).subscribe(then => {
+            alert('bien jouée');
+        });
+        // envoi une requete put avec le param jvm en body
+
+    }
+
+    disableParams() {
+        this.paramJvm.active = false;
+
+        this.paramJvm.scheduleFile = this.selectedKatJob.propertyFile;
+        this.serverService.postParamJvm(this.server.id , this.paramJvm).subscribe(then => {
+            alert('bien jouée');
+        });
+    }
+
+
+
+
+    /*
+        removeOneTel(katJobTel) {
+            let katJob = this.scheduledCron.filter(x => x.pid === this.selectedKatJob.pid)[0];
+            const index: number = katJob.notifySms.indexOf(katJobTel);
+            if (index !== -1) {
+                katJob.notifySms.splice(index, 1);
+            }
+        }
+    */
 
 /*    addTel() {
         let katJob = this.scheduledCron.filter(x => x.pid === this.selectedKatJob.pid)[0];

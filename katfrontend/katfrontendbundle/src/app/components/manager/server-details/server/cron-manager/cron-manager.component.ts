@@ -70,6 +70,7 @@ export class CronManagerComponent implements OnInit{
     modalRef: BsModalRef;
     server: KatServer;
     right: IamRight;
+    disableCron: boolean = false;
     @Input()
     set setServer(server: KatServer) {
         this.server = server;
@@ -121,6 +122,17 @@ export class CronManagerComponent implements OnInit{
         this.cronDeployment.cron = this.cronExpression;
         this.modalRef.hide();
     }
+    /* Publier sans cron */
+
+    getOutCron() {
+        this.cronDeployment.cron = "0 0 0 1 1 ? 1970";
+        this.disableCron = true;
+    }
+
+    getInCron() {
+        this.cronDeployment.cron = null;
+        this.disableCron = false;
+    }
 
     submitCronDeployment() {
         this.serverService.deployCronArtifact(this.cronDeployment, this.server.id).subscribe(res => {
@@ -128,7 +140,13 @@ export class CronManagerComponent implements OnInit{
                 this.cronUpdated.emit(this.cronDeployment);
                 this.cronDeployment = new DeploymentCron();
                 this.notifService.success('Success', 'Cron deployment is done');
+            } else {
+                this.cronUpdated.emit()
+
             }
+
+
+
         });
     }
     updateContext(artifact, context) {
@@ -158,6 +176,8 @@ export class CronManagerComponent implements OnInit{
                 this.contexts = [];
                 this.contexts = arrayContexts;
             }
+
+
         });
 
     }

@@ -36,6 +36,7 @@ import { MailNotif } from '../../model/mailNotif';
 import { OverridedContext } from '../../model/overridedContext';
 import { ScheduleUpdater } from '../../model/scheduleUpdater';
 import {AuthService} from "../auth/auth.service";
+import {ParamJvm} from "../../model/paramJvm";
 
 @Injectable()
 export class ServerService extends HttpCustomService {
@@ -89,6 +90,21 @@ export class ServerService extends HttpCustomService {
     getEmailAlert(propertyFile: string, idServer: string): Observable<MailNotif> {
         return this.httpClient
             .get(this.urlService.getEmailAlert(propertyFile, idServer), this.getOptions())
+            .catch(this.handleError)
+            .map(this.extractData);
+    }
+    postParamJvm( idServer: string, paramJvm: ParamJvm): Observable<Boolean> {
+        console.log("param JVM");
+        console.log(paramJvm);
+        return this.httpClient
+            .post(this.urlService.postJvmParams(idServer), paramJvm,  this.getOptions())
+            .catch(this.handleError)
+            .map(this.extractData);
+    }
+
+    getParam(propertyFile: string, idServer: string): Observable<any> {
+        return this.httpClient
+            .get(this.urlService.getParams(propertyFile, idServer), this.getOptions())
             .catch(this.handleError)
             .map(this.extractData);
     }

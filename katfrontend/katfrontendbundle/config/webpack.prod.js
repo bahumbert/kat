@@ -43,7 +43,7 @@ module.exports = function (env) {
     devtool: 'source-map',
 
     /**
-     * Options affecting the output of the compilation.
+     * options affecting the output of the compilation.
      *
      * See: http://webpack.github.io/docs/configuration.html#output
      */

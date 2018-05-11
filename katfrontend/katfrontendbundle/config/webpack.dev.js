@@ -56,7 +56,7 @@ module.exports = function (options) {
     },
 
     /**
-     * Options affecting the output of the compilation.
+     * options affecting the output of the compilation.
      *
      * See: http://webpack.github.io/docs/configuration.html#output
      */

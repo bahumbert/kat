@@ -57,22 +57,32 @@
         </div>
         <div class="col-sm-6 col-lg-4">
             <div class="form-group">
-                <label for="cron">
+                <label for="cron" class="col-md-12">
                     Cron
                 </label>
                 <div class="col-md-12">
-                    <div class="col-md-6">
-                        <input minlength="6" [required]="true" type="text"
-                               [(ngModel)]="cronDeployment.cron" #cron="ngModel" name="cron" class="form-control ng-invalid" id="cron" placeholder="0 * * * * ?">
-                        <div [hidden]="cron.valid"
-                             class="alert alert-danger">
-                            Cron is required and must be valid
-                        </div>
-                    </div>
-                    <div class="col-md-6">
+                        <div class="col-md-6">
+                         <input *ngIf="!disableCron" minlength=" 00" type="text"
+                               [(ngModel)]="cronDeployment.cron" #cron="ngModel" name="cron" class="form-control ng-invalid" id="cron" placeholder="0 * * * * ?" [disabled]="false"  >
+
+                            <input *ngIf="disableCron" minlength="6" type="text"
+                                    name="cron" class="form-control ng-invalid" id="cronDisabled" placeholder="Pas de planification" [disabled]="true">
+
+
+                             <div [hidden]=" cron && cron.valid">
+
+                            </div>
+                         </div>
+                     <div class="col-md-6">
+
                         <a (click)="openModal(cronGeneratorModal)">Générer un cron</a>
                     </div>
-                </div>
+                   <div class="col-md-6">
+
+                        <a *ngIf="!disableCron" (click)="getOutCron()">Publier sans cron</a>
+                      <a *ngIf="disableCron" (click)="getInCron()"  >Publier avec un cron</a>
+                    </div>
+               </div>
             </div>
         </div>
         <button [disabled]="!formCronDeployment.valid" type="submit" class="btn btn-success">Submit</button>

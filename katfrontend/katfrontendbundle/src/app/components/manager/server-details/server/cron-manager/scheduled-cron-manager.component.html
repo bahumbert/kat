@@ -36,24 +36,34 @@
         <td>{{ katJob.project }}</td>
         <td><span  class="cursor-pointer" tooltip="{{ katJob.description }}">{{ katJob.name }}</span></td>
 
-        <td><a class="cursor-pointer" *ngIf="right.canEdit" (click)="changeVersion(chooseVersion, katJob);">{{ katJob.version }}</a>
+        <td>
+            <a class="cursor-pointer" *ngIf="right.canEdit" (click)="changeVersion(chooseVersion, katJob);">{{ katJob.version }}</a>
             <span *ngIf="!right.canEdit">{{ katJob.version }}</span>
         </td>
 
-        <td><a (click)="openModalOverride(overrideContext, katJob)" class="cursor-pointer">{{ katJob.context }}</a>
+        <td>
+            <a (click)="openModalOverride(overrideContext, katJob)" class="cursor-pointer">{{ katJob.context }}</a>
             <i (click)="removeContextOverloaded(katJob)" *ngIf="katJob.overloadedContext && right.canEdit === true" class="fa fa-times cursor-pointer color-red" aria-hidden="true"></i>
 
         </td>
-        <td>{{ katJob.state }}
+        <td>
+            <ng-container *ngIf="katJob.scheduling !== '0 0 0 1 1 ? 1970'">{{ katJob.state }}</ng-container>
 
-            <a *ngIf="katJob.state != 'active' && right.canEdit === true" tooltip="Resume" class="actionButton cursor-pointer float-right" (click)="this.changeStatus(katJob.pid, 'resume')">
+            <a *ngIf="katJob.state != 'active' && right.canEdit === true && katJob.scheduling !== '0 0 0 1 1 ? 1970'" tooltip="Resume" class="actionButton cursor-pointer float-right" (click)="this.changeStatus(katJob.pid, 'resume')">
                 <i class="fa fa-play cursor-pointer" aria-hidden="true"></i>
             </a>
+           <a *ngIf="katJob.state != 'active' && right.canEdit === true && katJob.scheduling !== '0 0 0 1 1 ? 1970'" tooltip="null" class="actionButton cursor-pointer float-right">
 
-            <a *ngIf="katJob.state != 'paused' && right.canEdit === true" tooltip="Pause" class="actionButton cursor-pointer float-right" (click)="this.changeStatus(katJob.pid, 'pause')">
+            </a>
+
+            <a *ngIf="katJob.state != 'paused' && right.canEdit === true && katJob.scheduling !== '0 0 0 1 1 ? 1970'" tooltip="Pause" class="actionButton cursor-pointer float-right" (click)="this.changeStatus(katJob.pid, 'pause')">
                 <i class="fa fa-pause cursor-pointer" aria-hidden="true"></i>
             </a>
 
+            <a *ngIf="katJob.state != 'paused' && right.canEdit === true && katJob.scheduling !== '0 0 0 1 1 ? 1970'" tooltip="Pause" class="actionButton cursor-pointer float-right">
+
+            </a>
+            <a *ngIf= "katJob.scheduling ==='0 0 0 1 1 ? 1970'"   tooltip="null"  >-</a>
         </td>
         <td *ngIf="katJob.running === true">Running
             <a *ngIf="right.canEdit === true" tooltip="Kill" class="actionButton cursor-pointer float-right" (click)="this.changeStatus(katJob.pid, 'kill')">
@@ -67,8 +77,10 @@
             </a>
         </td>
         <td>
-            <a *ngIf="right.canEdit" (click)="openModalCron(cronGeneratorModal, katJob)" class="cursor-pointer">{{ katJob.scheduling }}</a>
-            <span *ngIf="!right.canEdit">{{ katJob.scheduling }}</span>
+            <span *ngIf="katJob.scheduling !== '0 0 0 1 1 ? 1970'" >{{ katJob.scheduling }}</span>
+            <a *ngIf="!right.canEdit" (click)="openModalCron(cronGeneratorModal, katJob)" class="cursor-pointer">{{ katJob.scheduling }}</a>
+            <a *ngIf= "katJob.scheduling =='0 0 0 1 1 ? 1970'"   tooltip="null"  >-</a>
+
         </td>
         <td>{{ katJob.nextExecution }}</td>
         <td *ngIf="right.canEdit === true">
@@ -78,6 +90,10 @@
 
             <a tooltip="Notification email" class="actionButton cursor-pointer float-right" (click)="openModalMail(notifyMail, katJob)">
                 <i [ngClass]="(katJob.mailActive===false)?'color-red':'color-green'" class="fa fa-at cursor-pointer bold color-green" aria-hidden="true"></i>
+            </a>
+
+            <a tooltip="Paramètres" class="actionButton cursor-pointer float-right" (click)="openModalParam(ParamNotify, katJob)">
+                <i [ngClass]="(katJob.paramActive===false)?'color-red':'color-green'" class="fa fa-wrench cursor-pointer bold color-green" aria-hidden="true"></i>
             </a>
 
             <!--<a tooltip="Notification SMS" class="actionButton cursor-pointer float-right" (click)="this.openModalSms(notifySms, katJob)">
@@ -94,6 +110,34 @@
     </tr>
     </tfoot>
 </table>
+<ng-template #ParamNotify>
+    <div class="modal-header">
+        Parametres
+    </div>
+    <form (ngSubmit)="validParam()" #formvalidParam="ngForm">
+    <div class="modal-body">
+        <h3>Ajouter un Parametre</h3>
+
+            <div class="form-group col-md-6">
+                <input class="form-control" required id="params" [(ngModel)]="paramJvm.options" #params placeholder="Parametres" type="text" name="parametres" >
+            </div>
+            <button [disabled]="!formvalidParam.valid" type="submit" class="btn btn-success">Valider</button>
+
+    </div>
+    <div class="modal-footer">
+
+        <button type="button" (click)="closeModal(ParamNotify)" class="btn btn-error" data-dismiss="modal">Close</button>
+        <button *ngIf="paramJvm.active === false" (click)= " enableParams(true)" type="button" class="btn btn-success" data-dismiss="modal">Enable</button>
+        <button  *ngIf="paramJvm.active === true" (click)= " disableParams(false)" type="button"  class="btn btn-error" data-dismiss="modal">Disable</button>
+
+
+
+    </div>
+    </form>
+</ng-template>
+
+
+
 
 <ng-template #chooseVersion>
     <div class="modal-header">
