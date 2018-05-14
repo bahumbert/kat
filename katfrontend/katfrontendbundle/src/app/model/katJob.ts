@@ -22,7 +22,7 @@ export class KatJob{
     scheduling: string;
     running: boolean;
     mailActive: boolean;
-    paramActive: boolean = false;
+    jvmActive: boolean;
 
 /*    notifySms: string[] = [];*/
 

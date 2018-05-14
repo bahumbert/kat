@@ -98,8 +98,20 @@ export class ScheduledCronManagerComponent implements OnInit{
                         res.mailActive = emails.active;
                     });
 
+                        if ( adding || this.right.isAdmin || this.right.isSuperAdmin ) {
+                            this.serverService.getParam(res.propertyFile, this.server.id).subscribe(param => {
+                                res.jvmActive = param.active;
+
+                            });
+                        }
+
+                        //   if { this.serverService.getParam( res.propertyFile, this.server.id).subscribe(param => {
+                        //       res.paramActive = param.active;
+                        //   });
+
 
                     this.scheduledCron.push(KatJob.fromObject(res));
+                        console.log(this.scheduledCron);
                     }
                 });
             }
@@ -113,6 +125,12 @@ export class ScheduledCronManagerComponent implements OnInit{
                 }
                }, 10000);
         }
+
+
+        //   if { this.serverService.getParam( res.propertyFile, this.server.id).subscribe(param => {
+        //       res.paramActive = param.active;
+        //   });
+       // }
     }
 
     update() {
@@ -239,25 +257,33 @@ export class ScheduledCronManagerComponent implements OnInit{
         this.serverService.postEmailAlert(this.server.id, this.currentMailNotif).subscribe();
     }
 
-    validParam() {
+    validParam(needActive: boolean) {
+        if (needActive === true) {
+            this.paramJvm.active = true;
+           this.scheduledCron.filter(x => x.propertyFile === this.paramJvm.scheduleFile)[0].jvmActive= true;
+        }
 
-           this.paramJvm.scheduleFile = this.selectedKatJob.propertyFile;
-           console.log(this.paramJvm);
-        this.serverService.postParamJvm(this.server.id , this.paramJvm).subscribe(then => {
-            alert('bien jouée');
-        });
+        else
+            {
+                this.paramJvm.active = false;
+            //    this.scheduledCron.filter(x => x.propertyFile === this.paramJvm.scheduleFile).paramActive = false;
+            }
 
-        // envoi une requete post avec le param jvm en body
+            this.paramJvm.scheduleFile = this.selectedKatJob.propertyFile;
+            console.log(this.paramJvm);
+            this.serverService.postParamJvm(this.server.id, this.paramJvm).subscribe();
 
-    }
+            // envoi une requete post avec le param jvm en body
+
+        }
+
 
     enableParams() {
         this.paramJvm.active = true;
 
         this.paramJvm.scheduleFile = this.selectedKatJob.propertyFile;
-        this.serverService.postParamJvm(this.server.id , this.paramJvm).subscribe(then => {
-            alert('bien jouée');
-        });
+        this.serverService.postParamJvm(this.server.id , this.paramJvm).subscribe();
+
         // envoi une requete put avec le param jvm en body
 
     }
@@ -266,9 +292,7 @@ export class ScheduledCronManagerComponent implements OnInit{
         this.paramJvm.active = false;
 
         this.paramJvm.scheduleFile = this.selectedKatJob.propertyFile;
-        this.serverService.postParamJvm(this.server.id , this.paramJvm).subscribe(then => {
-            alert('bien jouée');
-        });
+        this.serverService.postParamJvm(this.server.id , this.paramJvm).subscribe();
     }
 
 

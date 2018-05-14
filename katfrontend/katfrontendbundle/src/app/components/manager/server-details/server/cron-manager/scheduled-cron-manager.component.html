@@ -93,7 +93,7 @@
             </a>
 
             <a tooltip="Paramètres" class="actionButton cursor-pointer float-right" (click)="openModalParam(ParamNotify, katJob)">
-                <i [ngClass]="(katJob.paramActive===false)?'color-red':'color-green'" class="fa fa-wrench cursor-pointer bold color-green" aria-hidden="true"></i>
+                <i [ngClass]="(katJob.jvmActive===false)?'color-red':'color-green'" class="fa fa-wrench cursor-pointer bold color-green" aria-hidden="true"></i>
             </a>
 
             <!--<a tooltip="Notification SMS" class="actionButton cursor-pointer float-right" (click)="this.openModalSms(notifySms, katJob)">
