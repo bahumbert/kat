@@ -35,9 +35,9 @@ import java.util.regex.Pattern;
 
 public class ZipNexusUploaderEnvironmentImpl implements ZipNexusUploaderEnvironment {
 
-    private static final Pattern FIND_VERSION = Pattern.compile("[\\-_]([0-9]+\\.[0-9]+)\\.zip$");
+    private static final Pattern FIND_VERSION = Pattern.compile("[\\-_]([0-9]+\\.[0-9]+)\\.(zip|jar|kar)$");
     private static final String UPLOAD_FOLDER =  System.getProperty("karaf.data") + "/tmp/zipper";
-    public static final Logger logger = LoggerFactory.getLogger(KatRestServer.class);
+    public static final Logger logger = LoggerFactory.getLogger(ZipNexusUploaderEnvironmentImpl.class);
     private ServerRepository serverRepository = new ServerRepository();
 
     @Override
@@ -188,20 +188,35 @@ public class ZipNexusUploaderEnvironmentImpl implements ZipNexusUploaderEnvironm
         String file = fileExtractor.getFile();
         byte[] data = Base64.getDecoder().decode(file);
 
+        String artifact = null;
+        Matcher matcher = FIND_VERSION.matcher(fileExtractor.getName());
+
+        // Finds extension from filename
+        while(matcher.find()) {
+            artifact = matcher.group(2);
+        }
+
         Response response;
 
-        try {
-            createFolderIfNotExists(UPLOAD_FOLDER);
+        // Only upload if artifact type is supported
+        if(artifact != null) {
 
-            try (OutputStream stream = new FileOutputStream(UPLOAD_FOLDER + "/job.zip")) {
-                stream.write(data);
+            try {
+                createFolderIfNotExists(UPLOAD_FOLDER);
+
+                try (OutputStream stream = new FileOutputStream(UPLOAD_FOLDER + "/job." + artifact)) {
+                    stream.write(data);
+                }
+
+                response = this.uploadNexus(fileExtractor.getName(), headers);
+            } catch (SecurityException se) {
+                response = Response.serverError().entity("Impossible de créer le dossier").build();
+            } catch (Exception ex) {
+                response = Response.serverError().entity(ex).build();
             }
 
-            response = this.uploadNexus( fileExtractor.getName(),  headers );
-        } catch (SecurityException se) {
-            response = Response.serverError().entity("Impossible de créer le dossier").build();
-        } catch (Exception ex) {
-            response = Response.serverError().entity( ex ).build();
+        } else {
+            response = Response.serverError().entity("The artifact extension is not supported (not a .zip, .jar or .kar extension)").build();
         }
 
         return response;
@@ -215,7 +230,7 @@ public class ZipNexusUploaderEnvironmentImpl implements ZipNexusUploaderEnvironm
             String url = KatBackendProperties.getNexusBrowse() + KatBackendProperties.getNexusRepository();
 
             if (! (token.equals("null"))) {
-               url =  url.concat("&continuationToken="+token);
+                url =  url.concat("&continuationToken="+token);
             }
 
             URL obj = new URL(url);
@@ -240,6 +255,7 @@ public class ZipNexusUploaderEnvironmentImpl implements ZipNexusUploaderEnvironm
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
         Matcher matcher = FIND_VERSION.matcher(fileName);
         String version = null;
+        String artifact = null;
         Response response;
 
         String basicAuth = headers.getHeaderString("Authorization");
@@ -252,14 +268,15 @@ public class ZipNexusUploaderEnvironmentImpl implements ZipNexusUploaderEnvironm
         // Finds version from filename
         while(matcher.find()) {
             version = matcher.group(1);
-            fileName = fileName.substring(0, fileName.lastIndexOf(version + ".zip") - 1);
+            artifact = matcher.group(2);
+            fileName = fileName.substring(0, fileName.lastIndexOf(version + "." + artifact) - 1);
         }
 
         if(version != null) {
             NexusRequest req = new NexusRequest(
-                fileName,
-                version,
-                "file:///" + UPLOAD_FOLDER + "/job.zip"
+                    fileName,
+                    version,
+                    "file:///" + UPLOAD_FOLDER + "/job." + artifact
             );
 
             DataOutputStream wr = new DataOutputStream(con.getOutputStream());
@@ -282,8 +299,8 @@ public class ZipNexusUploaderEnvironmentImpl implements ZipNexusUploaderEnvironm
             in.close();
 
             response = Response.status( responseCode )
-                .entity( isSuccess ? "Artifact successfully uploaded in Nexus" : this.extractNexusError( buffer.toString() ) )
-                .build()
+                    .entity( isSuccess ? "Artifact successfully uploaded in Nexus" : this.extractNexusError( buffer.toString() ) )
+                    .build()
             ;
         } else {
             response = Response.serverError().entity("The artifact has no version number").build();
