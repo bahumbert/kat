@@ -127,7 +127,7 @@ public class BinariesUtils {
             Properties props = new Properties(new File(base, "katexec/" + scheduleFile));
 
             // Get JVM options and activation status
-            jvmOptions.setJvmOptions(props.get("job.jvm.options.list"));
+            jvmOptions.setOptions(props.get("job.jvm.options.list"));
             jvmOptions.setActive(props.get("job.jvm.options.active"));
 
             // Set schedule file back
@@ -156,7 +156,7 @@ public class BinariesUtils {
             Properties props = new Properties(new File(base, "katexec/" + jvmOptions.getScheduleFile()));
 
             // Sets JVM options and state
-            props.put("job.jvm.options.list", jvmOptions.getJvmOptions());
+            props.put("job.jvm.options.list", jvmOptions.getOptions());
             props.put("job.jvm.options.active", Boolean.toString(jvmOptions.isActive()));
 
             // Save changes to property file

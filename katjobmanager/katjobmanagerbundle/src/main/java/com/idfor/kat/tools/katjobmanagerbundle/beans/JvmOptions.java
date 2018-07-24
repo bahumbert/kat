@@ -27,15 +27,15 @@ import java.util.List;
 public class JvmOptions {
 
     private String scheduleFile;
-    private String jvmOptions;
+    private String options;
     private boolean isActive;
 
     public String getScheduleFile() {
         return scheduleFile;
     }
 
-    public String getJvmOptions() {
-        return jvmOptions;
+    public String getOptions() {
+        return options;
     }
 
     public boolean isActive() {
@@ -46,8 +46,8 @@ public class JvmOptions {
         this.scheduleFile = scheduleFile;
     }
 
-    public void setJvmOptions(String jvmOptions) {
-        this.jvmOptions = jvmOptions;
+    public void setOptions(String options) {
+        this.options = options;
     }
 
     public void setActive(String active) {
