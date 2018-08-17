@@ -32,7 +32,7 @@ export class UploadComponent implements OnInit {
     filterQuery: string;
     uploadFile: any;
     hasBaseDropZoneOver: boolean = false;
-    sizeLimit = 10000 * 1000 * 2; // Mo
+    sizeLimit = 100000 * 1000 * 2; // Mo
 
     uploaderOver = false;
     uploaderError = false;

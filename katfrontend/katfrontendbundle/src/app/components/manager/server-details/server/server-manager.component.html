@@ -21,7 +21,7 @@
                 </div>
                 <div class="col-sm-6 col-lg-4">
                     <div class="form-group">
-                        <label for="server-type">
+                        <label for="system-name">
                             System name :
                         </label>
                         <input *ngIf="right.canEdit" type="text" class="form-control" id="system-name" [(ngModel)]="server.systemName" (change)="update()" placeholder="Automatically fetched but can be modified">
@@ -33,7 +33,10 @@
                         <label for="server-type">
                             Type :
                         </label>
-                        <input *ngIf="right.canEdit" type="text" class="form-control" id="server-type" [(ngModel)]="server.type" (change)="update()" placeholder="Type">
+                        <select  class="form-control" id="server-type" [(ngModel)]="server.type" (change)="update()">
+                            <option [value]="serverType" *ngFor="let serverType of serverTypes" [selected]="serverType === server.type">{{serverType}}</option>
+                        </select>
+                        <!-- <input *ngIf="right.canEdit" type="text" class="form-control" id="server-type" [(ngModel)]="server.type" (change)="update()" placeholder="Type"> -->
                         <span *ngIf="!right.canEdit">{{ server.type }}</span>
                     </div>
                 </div>

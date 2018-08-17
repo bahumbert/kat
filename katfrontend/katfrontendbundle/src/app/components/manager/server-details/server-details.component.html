@@ -4,22 +4,26 @@
 
     <tabset #staticTabs>
         <tab heading="Server">
-            <server-manager       [setServer]="server" (serverUpdated)="serverUpdatedEvent($event)" ></server-manager>
+            <server-manager [setServer]="server" (serverUpdated)="serverUpdatedEvent($event)" ></server-manager>
         </tab>
 
-        <tab *ngIf="server.isStarted" heading="Jobs">
+        <tab *ngIf="server.isStarted && server.type == 'KATEXEC'" heading="Jobs">
             <zip-manager (addArtifact)="handleNewArtifact($event)" (removeArtifact)="undeployArtifact($event)" [setServer]="server" ></zip-manager>
         </tab>
 
-        <tab *ngIf="server.isStarted" heading="Workflow">
+        <tab *ngIf="server.isStarted && server.type == 'TRUN'" heading="WS / Routes">
+            <zip-manager (addArtifact)="handleNewArtifact($event)" (removeArtifact)="undeployArtifact($event)" [setServer]="server" ></zip-manager>
+        </tab>
+
+        <tab *ngIf="server.isStarted && server.type == 'KATEXEC'"  heading="Workflow">
             <workflow-manager [setServer]="server" ></workflow-manager>
         </tab>
 
-        <tab *ngIf="server.isStarted && right.canEdit === true" heading="Cron">
+        <tab *ngIf="server.isStarted && server.type == 'KATEXEC' && right.canEdit === true" heading="Cron">
             <cron-manager [artifacts]="activeartifacts" (cronUpdated)="handleCronUpdated($event)" [setServer]="server" ></cron-manager>
         </tab>
 
-        <tab *ngIf="server.isStarted" heading="Scheduled jobs" active="true">
+        <tab *ngIf="server.isStarted && server.type == 'KATEXEC'" heading="Scheduled jobs" active="true">
             <scheduled-cron-manager (deleteScheduller)="updateZipManager($event)" [setServer]="server" ></scheduled-cron-manager>
         </tab>
     </tabset>

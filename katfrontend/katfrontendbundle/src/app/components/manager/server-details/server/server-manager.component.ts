@@ -56,6 +56,8 @@ export class ServerManagerComponent implements OnInit{
 
     }
 
+    serverTypes = ['KATEXEC', 'TRUN']
+
     update(pathUpdate?: boolean){
 
         let reg = /^[a-zA-Z0-9\/\.\-_]*$/ig;

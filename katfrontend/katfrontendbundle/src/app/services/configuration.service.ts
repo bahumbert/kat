@@ -30,15 +30,18 @@ export class ConfigurationService {
 
   private setUrl():void {
     if (this.env == Environment.Local) {
-      this.baseUrl = 'http://localhost:8182/cxf/kat';
+      this.baseUrl = 'http://kat.ici-pro.com/cxf/kat';
+      // this.baseUrl = 'http://localhost:8182/cxf/kat'
     }
 
     if (this.env == Environment.Dev) {
-      this.baseUrl = 'http://localhost:8182/cxf/kat';
+      this.baseUrl = 'http://kat.ici-pro.com/cxf/kat';
+      // this.baseUrl = 'http://localhost:8182/cxf/kat'
     }
 
     if (this.env == Environment.Prod) {
-      this.baseUrl = 'http://localhost:8182/cxf/kat';
+      this.baseUrl = 'http://kat.ici-pro.com/cxf/kat';
+      // this.baseUrl = 'http://localhost:8182/cxf/kat'
     }
   }
 
