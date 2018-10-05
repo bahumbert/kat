@@ -45,6 +45,10 @@ Currently in development - v1.1.0 Released
 		* Edit the `${karaf.etc}/org.ops4j.pax.web.cfg` file
 		* Change the line `org.osgi.service.http.port=8181` with desired port number
 		* Save your changes
+	* For every KAT server, you can rename the karaf in `${karaf.etc}/system.properties` file (karaf.name value)
+	* You can change your nexus parameters in the file `${karaf.etc}/com.idfor.kat.tools.katbackend` of your KATADMIN server and the files `${karaf.etc}/com.idfor.kat.tools.katjobmanager.cfg` of your KATEXEC server
+		
+	
 
 * Advanced configuration :
 	* Coming SOON with user manual, stay tuned!
