@@ -41,7 +41,7 @@
                         <label for="url">
                             Jolokia url :
                         </label>
-                        <input type="text" class="form-control" id="url" [(ngModel)]="broker.jolokiaUrl" (change)="update(); jolokiaUrlChanged=true" placeholder="e.g.: localhost:8181/jolokia">
+                        <input type="text" class="form-control" id="url" [(ngModel)]="broker.communicationUrl" (change)="update(); jolokiaUrlChanged=true" placeholder="e.g.: localhost:8181/jolokia">
                     </div>
                 </div>
                 <div class="col-sm-6 col-lg-4">

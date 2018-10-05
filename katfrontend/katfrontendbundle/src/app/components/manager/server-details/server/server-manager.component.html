@@ -45,8 +45,8 @@
                         <label for="url">
                             Cave url :
                         </label>
-                        <input *ngIf="right.canEdit" type="text" class="form-control" id="url" [(ngModel)]="server.jolokiaUrl" (change)="update()" placeholder="e.g.: localhost:8181/jolokia">
-                        <span *ngIf="!right.canEdit">{{ server.jolokiaUrl }}</span>
+                        <input *ngIf="right.canEdit" type="text" class="form-control" id="url" [(ngModel)]="server.communicationUrl" (change)="update()" placeholder="e.g.: localhost:8181/jolokia">
+                        <span *ngIf="!right.canEdit">{{ server.communicationUrl }}</span>
                     </div>
                 </div>
                 <div class="col-sm-6 col-lg-4">

@@ -33,7 +33,7 @@ public class KatServer {
     private String id;
     private String name;
     private String type;
-    private String jolokiaUrl;
+    private String communicationUrl;
     private PhysicalStats PhysicalStats;
 	private String systemName;
 	private SshLogin sshLogin;
@@ -84,29 +84,29 @@ public class KatServer {
     public KatServer() {
     }
 
-    public KatServer(String name, String type, String jolokiaUrl) {
+    public KatServer(String name, String type, String communicationUrl) {
         this.name = name;
         this.type = type;
-        this.jolokiaUrl = jolokiaUrl;
+        this.communicationUrl = communicationUrl;
     }
 
-    public KatServer(String id, String name, String type, String jolokiaUrl) {
-        this(name, type, jolokiaUrl);
+    public KatServer(String id, String name, String type, String communicationUrl) {
+        this(name, type, communicationUrl);
         this.id = id;
     }
 
-    public KatServer(String id, String name, String type, String jolokiaUrl, String systemName) {
-        this(id, name, type, jolokiaUrl);
+    public KatServer(String id, String name, String type, String communicationUrl, String systemName) {
+        this(id, name, type, communicationUrl);
         this.systemName = systemName;
     }
 
-    public KatServer(String id, String name, String type, String jolokiaUrl, String systemName, SshLogin sshLogin) {
-        this(id, name, type, jolokiaUrl, systemName);
+    public KatServer(String id, String name, String type, String communicationUrl, String systemName, SshLogin sshLogin) {
+        this(id, name, type, communicationUrl, systemName);
         this.sshLogin = sshLogin;
     }
 
-    public KatServer(String id, String name, String type, String jolokiaUrl, String systemName, SshLogin sshLogin, AuthCredentials authCredentials) {
-        this(id, name, type, jolokiaUrl, systemName, sshLogin);
+    public KatServer(String id, String name, String type, String communicationUrl, String systemName, SshLogin sshLogin, AuthCredentials authCredentials) {
+        this(id, name, type, communicationUrl, systemName, sshLogin);
         this.authCredentials = authCredentials;
     }
 
@@ -134,12 +134,12 @@ public class KatServer {
         this.type = type;
     }
 
-    public String getJolokiaUrl() {
-        return jolokiaUrl;
+    public String getCommunicationUrl() {
+        return communicationUrl;
     }
 
-    public void setJolokiaUrl(String jolokiaUrl) {
-        this.jolokiaUrl = jolokiaUrl;
+    public void setCommunicationUrl(String communicationUrl) {
+        this.communicationUrl = communicationUrl;
     }
 
     public String getSystemName() {
@@ -163,7 +163,7 @@ public class KatServer {
     }
 
     public boolean isCorrectlyConfigured(){
-        return (StringUtils.isEmpty(this.jolokiaUrl) ) ? false : true;
+        return (StringUtils.isEmpty(this.communicationUrl) ) ? false : true;
     }
 
     public void setSshLogin(SshLogin sshLogin) {
@@ -192,8 +192,8 @@ public class KatServer {
         if (this.getType() != null){
             props.put("type", this.getType());
         }
-        if (this.getJolokiaUrl() != null){
-            props.put("jolokiaUrl", this.getJolokiaUrl());
+        if (this.getCommunicationUrl() != null){
+            props.put("communicationUrl", this.getCommunicationUrl());
         }
 		if (this.getSystemName() != null){
             props.put("systemName", this.getSystemName());
@@ -252,7 +252,7 @@ public class KatServer {
             SshLogin sshLogin = new SshLogin(v.getProperty("sshUser"), v.getProperty("sshHost"), port, sshPassword, v.getProperty("sshPath"));
             AuthCredentials authCredentials = new AuthCredentials(v.getProperty("authCredsUser"), authPassword);
 
-            return new KatServer(v.getId().toString(), (String) v.getProperty("name"), (String) v.getProperty("type"), (String) v.getProperty("jolokiaUrl"), (String) v.getProperty("systemName"), sshLogin, authCredentials);
+            return new KatServer(v.getId().toString(), (String) v.getProperty("name"), (String) v.getProperty("type"), (String) v.getProperty("communicationUrl"), (String) v.getProperty("systemName"), sshLogin, authCredentials);
         }
 
         return null;

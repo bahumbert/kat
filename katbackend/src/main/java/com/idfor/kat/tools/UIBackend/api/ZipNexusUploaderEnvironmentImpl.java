@@ -47,7 +47,7 @@ public class ZipNexusUploaderEnvironmentImpl implements ZipNexusUploaderEnvironm
         StringBuffer response = new StringBuffer();
 
         try {
-            String urlDelete = server.getJolokiaUrl() + "/cxf/katjobmanager/binaries/"+ artifactName + '/'+ version;
+            String urlDelete = server.getCommunicationUrl() + "/cxf/katjobmanager/binaries/"+ artifactName + '/'+ version;
 
             URL obj = new URL(urlDelete);
             HttpURLConnection con = (HttpURLConnection) obj.openConnection();
@@ -89,7 +89,7 @@ public class ZipNexusUploaderEnvironmentImpl implements ZipNexusUploaderEnvironm
             URI uri = new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort(), url.getPath(), url.getQuery(), url.getRef());
             String urlEncoded = URLEncoder.encode(uri.toASCIIString().replace("http://",""));
 
-            urlPost = server.getJolokiaUrl() + "/cxf/katjobmanager/binaries/http%3A%2F%2F" + KatBackendProperties.getNexusUserid() + "%3A" + KatBackendProperties.getNexusPwd() + "%40" + urlEncoded;
+            urlPost = server.getCommunicationUrl() + "/cxf/katjobmanager/binaries/http%3A%2F%2F" + KatBackendProperties.getNexusUserid() + "%3A" + KatBackendProperties.getNexusPwd() + "%40" + urlEncoded;
 
             URL obj = new URL(urlPost);
             HttpURLConnection con = (HttpURLConnection) obj.openConnection();
@@ -132,7 +132,7 @@ public class ZipNexusUploaderEnvironmentImpl implements ZipNexusUploaderEnvironm
         StringBuffer response = new StringBuffer();
         try {
 
-            String url = server.getJolokiaUrl() + "/cxf/katjobmanager/schedule";
+            String url = server.getCommunicationUrl() + "/cxf/katjobmanager/schedule";
             URL obj = new URL(url);
             HttpURLConnection con = (HttpURLConnection) obj.openConnection();
             con.setDoOutput(true);

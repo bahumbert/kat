@@ -77,7 +77,7 @@ public class ContextRepository {
         return res;
     }
 
-    public void delete(String id){
+    public void delete(String id) {
         OrientGraph graph = Orientdb.getOrientGraphTx();
 
         Vertex v = graph.getVertex(id);

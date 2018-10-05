@@ -57,7 +57,7 @@ public  class KatRestServerImpl implements KatRestServer {
         KatServer s = serverRepository.findOneById(serverId);
         StringBuffer response = new StringBuffer();
         try {
-            String url = s.getJolokiaUrl()+"/cxf/katjobmanager/schedule/property";
+            String url = s.getCommunicationUrl()+"/cxf/katjobmanager/schedule/property";
             URL obj = new URL(url);
 
             HttpURLConnection con = (HttpURLConnection) obj.openConnection();
@@ -98,7 +98,7 @@ public  class KatRestServerImpl implements KatRestServer {
         KatServer s = serverRepository.findOneById(serverId);
         StringBuffer response = new StringBuffer();
         try {
-            String url = s.getJolokiaUrl()+"/cxf/katexec/jobs/scheduled/"+jobName+"/"+version;
+            String url = s.getCommunicationUrl()+"/cxf/katexec/jobs/scheduled/"+jobName+"/"+version;
             URL obj = new URL(url);
             HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
@@ -128,7 +128,7 @@ public  class KatRestServerImpl implements KatRestServer {
         KatServer s = serverRepository.findOneById(serverId);
         StringBuffer response = new StringBuffer();
         try {
-            String url = s.getJolokiaUrl()+"/cxf/katjobmanager/workflows";
+            String url = s.getCommunicationUrl()+"/cxf/katjobmanager/workflows";
             URL obj = new URL(url);
             HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
@@ -158,7 +158,7 @@ public  class KatRestServerImpl implements KatRestServer {
         KatServer s = serverRepository.findOneById(serverId);
         StringBuffer response = new StringBuffer();
         try {
-            String url = s.getJolokiaUrl()+"/cxf/katjobmanager/contexts/properties";
+            String url = s.getCommunicationUrl()+"/cxf/katjobmanager/contexts/properties";
             URL obj = new URL(url);
 
             HttpURLConnection con = (HttpURLConnection) obj.openConnection();
@@ -200,7 +200,7 @@ public  class KatRestServerImpl implements KatRestServer {
         KatServer s = serverRepository.findOneById(serverId);
         StringBuffer response = new StringBuffer();
         try {
-            String url = s.getJolokiaUrl()+"/cxf/katjobmanager/alerts/mail";
+            String url = s.getCommunicationUrl()+"/cxf/katjobmanager/alerts/mail";
             logger.info(url);
             URL obj = new URL(url);
 
@@ -266,7 +266,7 @@ public  class KatRestServerImpl implements KatRestServer {
         KatServer s = serverRepository.findOneById(serverId);
         StringBuffer response = new StringBuffer();
         try {
-            String url = s.getJolokiaUrl()+"/cxf/katjobmanager/jvmoptions";
+            String url = s.getCommunicationUrl()+"/cxf/katjobmanager/jvmoptions";
             logger.info(url);
             URL obj = new URL(url);
 
@@ -326,7 +326,7 @@ public  class KatRestServerImpl implements KatRestServer {
         StringBuffer response = new StringBuffer();
 
         try {
-            String url = s.getJolokiaUrl()+"/cxf/katjobmanager/versions/" + jobName;
+            String url = s.getCommunicationUrl()+"/cxf/katjobmanager/versions/" + jobName;
 
             URL obj = new URL(url);
             HttpURLConnection con = (HttpURLConnection) obj.openConnection();
@@ -359,7 +359,7 @@ public  class KatRestServerImpl implements KatRestServer {
         KatServer s = serverRepository.findOneById(serverId);
         List<ZipArtifact> results = new ArrayList<ZipArtifact>();
         try {
-            String url = s.getJolokiaUrl()+"/cxf/katjobmanager/schedule/"+fileName;
+            String url = s.getCommunicationUrl()+"/cxf/katjobmanager/schedule/"+fileName;
 
             URL obj = new URL(url);
             HttpURLConnection con = (HttpURLConnection) obj.openConnection();
@@ -388,7 +388,7 @@ public  class KatRestServerImpl implements KatRestServer {
         StringBuffer response = new StringBuffer();
         List<ZipArtifact> results = new ArrayList<ZipArtifact>();
         try {
-            String url = s.getJolokiaUrl()+"/cxf/katjobmanager/binaries";
+            String url = s.getCommunicationUrl()+"/cxf/katjobmanager/binaries";
 
             URL obj = new URL(url);
             HttpURLConnection con = (HttpURLConnection) obj.openConnection();
@@ -422,7 +422,7 @@ public  class KatRestServerImpl implements KatRestServer {
         List<ZipArtifact> results = new ArrayList<ZipArtifact>();
         StringBuffer response = new StringBuffer();
         try {
-            String url = s.getJolokiaUrl()+"/cxf/katexec/jobs";
+            String url = s.getCommunicationUrl()+"/cxf/katexec/jobs";
             URL obj = new URL(url);
 
             HttpURLConnection con = (HttpURLConnection) obj.openConnection();
@@ -465,7 +465,7 @@ public  class KatRestServerImpl implements KatRestServer {
 
         StringBuffer response = new StringBuffer();
         try {
-            String url = s.getJolokiaUrl()+"/cxf/katjobmanager/alerts/mail/"+ pidJob;
+            String url = s.getCommunicationUrl()+"/cxf/katjobmanager/alerts/mail/"+ pidJob;
 
             URL obj = new URL(url);
             HttpURLConnection con = (HttpURLConnection) obj.openConnection();
@@ -496,7 +496,7 @@ public  class KatRestServerImpl implements KatRestServer {
 
         StringBuffer response = new StringBuffer();
         try {
-            String url = s.getJolokiaUrl()+"/cxf/katjobmanager/jvmoptions/"+ pidJob;
+            String url = s.getCommunicationUrl()+"/cxf/katjobmanager/jvmoptions/"+ pidJob;
 
             URL obj = new URL(url);
             HttpURLConnection con = (HttpURLConnection) obj.openConnection();
@@ -527,7 +527,7 @@ public  class KatRestServerImpl implements KatRestServer {
 
         StringBuffer response = new StringBuffer();
         try {
-            String url = s.getJolokiaUrl() + "/cxf/katjobmanager/contexts/properties/" + pidJob;
+            String url = s.getCommunicationUrl() + "/cxf/katjobmanager/contexts/properties/" + pidJob;
 
             URL obj = new URL(url);
             HttpURLConnection con = (HttpURLConnection) obj.openConnection();
@@ -556,7 +556,7 @@ public  class KatRestServerImpl implements KatRestServer {
 
         StringBuffer response = new StringBuffer();
         try {
-            String url = s.getJolokiaUrl() + "/cxf/katjobmanager/contexts/properties/" + pidJob;
+            String url = s.getCommunicationUrl() + "/cxf/katjobmanager/contexts/properties/" + pidJob;
 
             URL obj = new URL(url);
             HttpURLConnection con = (HttpURLConnection) obj.openConnection();
@@ -668,7 +668,7 @@ public  class KatRestServerImpl implements KatRestServer {
         KatServer server = serverRepository.findOneById(serverId);
         String result = "";
         try {
-            URL siteURL = new URL(server.getJolokiaUrl());
+            URL siteURL = new URL(server.getCommunicationUrl());
             HttpURLConnection connection = (HttpURLConnection) siteURL
                     .openConnection();
             String basicAuth = headers.getHeaderString("Authorization");
@@ -688,7 +688,7 @@ public  class KatRestServerImpl implements KatRestServer {
     @Override
     public PhysicalStats getStats(String serverId) {
         KatServer s = serverRepository.findOneById(serverId);
-        if (s == null || s.getJolokiaUrl() == null) {
+        if (s == null || s.getCommunicationUrl() == null) {
             return null;
         }
 
@@ -774,7 +774,7 @@ public  class KatRestServerImpl implements KatRestServer {
         StringBuffer response = new StringBuffer();
         List<ZipArtifact> results = new ArrayList<ZipArtifact>();
         try {
-            String url = s.getJolokiaUrl()+"/cxf/katexec/jobs";
+            String url = s.getCommunicationUrl()+"/cxf/katexec/jobs";
 
             URL obj = new URL(url);
             HttpURLConnection con = (HttpURLConnection) obj.openConnection();

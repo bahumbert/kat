@@ -41,6 +41,10 @@ public class EnvironmentRepository {
     private ServerRepository serverRepository;
     private BrokerRepository brokerRepository;
 
+    /**
+     *
+     * @return
+     */
     public List<KatEnvironment> findAll() {
 
         List<KatEnvironment> katEnvironmentList = new ArrayList<>();
@@ -148,6 +152,7 @@ public class EnvironmentRepository {
     public Vertex findVertexById(String id){
         OrientGraph graph = Orientdb.getOrientGraphTx();
         Vertex vertex = graph.getVertex(id);
+        graph.shutdown();
 
         return vertex;
     }

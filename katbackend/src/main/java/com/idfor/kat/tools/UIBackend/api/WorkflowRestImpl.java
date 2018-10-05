@@ -48,7 +48,7 @@ public class WorkflowRestImpl implements WorkflowRest {
         KatServer s = serverRepository.findOneById(idServer);
         StringBuffer response = new StringBuffer();
         try {
-            String url = s.getJolokiaUrl()+"/cxf/katjobmanager/workflows/"+wkFile;
+            String url = s.getCommunicationUrl()+"/cxf/katjobmanager/workflows/"+wkFile;
             logger.info(url);
             URL obj = new URL(url);
 
@@ -87,7 +87,7 @@ public class WorkflowRestImpl implements WorkflowRest {
         Workflow wk = this.getWorkflow(idWorkflow);
         StringBuffer response = new StringBuffer();
         try {
-            String url = s.getJolokiaUrl()+"/cxf/katjobmanager/workflows";
+            String url = s.getCommunicationUrl()+"/cxf/katjobmanager/workflows";
             logger.info(url);
             URL obj = new URL(url);
 
