@@ -22,9 +22,9 @@ Currently in development - v1.1.0 Released
 	* To download Apache Karaf, please go to https://karaf.apache.org/download.html#container-415 and choose your flavor, KAT is meant to perform even well on Windows or Linux systems
 	* Extract downloaded Karaf binaries on your disk, to start the server, go to your `${karaf.home}/bin` folder and execute `./karaf` (Linux) or `karaf.bat` (Windows) command to start server
 	* You first have to install necessary feature repositories. To do this, issue following commands :
-		* `mvn:com.idfor.kat.tools/katfeatures/1.1.0/xml/features`
-		* `mvn:org.apache.karaf.decanter/apache-karaf-decanter/2.0.0/xml/features`
-		* `mvn:org.apache.karaf.cave/apache-karaf-cave/4.1.0/xml/features`
+		* `repo-add mvn:com.idfor.kat.tools/katfeatures/1.1.0/xml/features`
+		* `repo-add mvn:org.apache.karaf.decanter/apache-karaf-decanter/2.0.0/xml/features`
+		* `repo-add mvn:org.apache.karaf.cave/apache-karaf-cave/4.1.0/xml/features`
 	* For a KATADMIN server, you have to install following features :
 		* `feature:install katbackend`
 		* `feature:install katfrontend`
